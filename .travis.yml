@@ -7,7 +7,7 @@ rvm:
 before_install:
   - gem install bundler -v 1.12.5
   - sudo apt-get update
-  - sudo apt-get install -y libvips-dev
+  - sudo apt-get install -y libvips-dev libvips-tools
 notifications:
   email:
     recipients:
