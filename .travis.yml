@@ -1,6 +1,7 @@
 sudo: false
 language: ruby
 script: 'bundle exec rake'
+sudo: required
 rvm:
   - 2.2.5
 before_install:
