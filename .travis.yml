@@ -8,6 +8,7 @@ before_install:
   - gem install bundler -v 1.12.5
   - sudo apt-get update
   - sudo apt-get install -y libvips-dev libvips-tools
+  - export VIPS_NOVECTOR=1
 notifications:
   email:
     recipients:
