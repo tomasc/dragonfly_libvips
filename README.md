@@ -44,7 +44,21 @@ end
 
 #### Thumb
 
-TODO
+Create a thumbnail by resizing/cropping
+
+```ruby
+image.thumb('40x30')
+```
+
+Below are some examples of geometry strings for `thumb`:
+
+```ruby
+'400x300' # resize, maintain aspect ratio
+'400x' # resize width, maintain aspect ratio
+'x300' # resize height, maintain aspect ratio
+'400x300<' # resize only if the image is smaller than this
+'400x300>' # resize only if the image is larger than this
+```
 
 #### Encode
 
