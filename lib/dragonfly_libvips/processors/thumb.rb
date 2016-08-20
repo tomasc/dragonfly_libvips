@@ -33,9 +33,9 @@ module DragonflyLibvips
 
         case geometry
         when /\Ax\d+[#{OPERATORS}]?/
-          width = is_landscape ? (ratio * height).to_i : height
+          width = is_landscape ? (ratio * height).round : height
         when /\A\d+x[#{OPERATORS}]?\z/
-          height = is_landscape ? width : (width / ratio).to_i
+          height = is_landscape ? width : (width / ratio).round
         end
 
         case geometry
