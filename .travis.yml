@@ -3,6 +3,7 @@
 language: ruby
 script: 'bundle exec rake'
 sudo: required
+dist: trusty
 rvm:
   - 2.2.5
 env:
