@@ -4,14 +4,14 @@ module DragonflyLibvips
       OPERATORS = '><'.freeze
       RESIZE_GEOMETRY = /\A\d*x\d*[#{OPERATORS}]?\z/ # e.g. '300x200>'
 
-      def update_url(url_attributes, _geometry, opts = {})
-        format = opts['format']
-        url_attributes.ext = format if format
-      end
-
       def call(content, geometry, opts = {})
         image_properties = content.analyse(:image_properties)
         content.process!(:vipsthumbnail, args_for_geometry(geometry, image_properties), opts)
+      end
+
+      def update_url(url_attributes, _geometry, opts = {})
+        format = opts['format']
+        url_attributes.ext = format if format
       end
 
       def args_for_geometry(geometry, image_properties)
