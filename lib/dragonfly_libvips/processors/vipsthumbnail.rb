@@ -5,8 +5,16 @@ module DragonflyLibvips
         vipsthumbnail_command = content.env[:vipsthumbnail_command] || 'vipsthumbnail'
         format = opts['format']
 
+        if input_args = opts['input_args']
+          input_args = "[#{input_args}]"
+        end
+
+        if output_args = opts['output_args']
+          output_args = "[#{output_args}]"
+        end
+
         content.shell_update ext: format do |old_path, new_path|
-          "#{vipsthumbnail_command} #{old_path} -o #{new_path} #{args}"
+          "#{vipsthumbnail_command} #{old_path}#{input_args} -o #{new_path}#{output_args} #{args}"
         end
 
         if format
