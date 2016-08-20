@@ -8,7 +8,7 @@ rvm:
   - 2.2.5
 before_install:
   - gem install bundler -v 1.12.5
-  - sudo add-apt-repository ppa:dhor/myway
+  - sudo add-apt-repository -y ppa:dhor/myway
   - sudo apt-get update
   - sudo apt-get install vips
   - vips --version
