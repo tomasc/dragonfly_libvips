@@ -103,7 +103,7 @@ vips resize <original_path>[page=2] <new_path>[Q=50] 0.5
 Perform an arbitrary `vipsthumbnail` command
 
 ```ruby
-image.vips('--size=100x100', { 'input_args' => 'page=2', 'output_args' => 'Q=50', 'format' => 'jpg' })
+image.vipsthumbnail('--size=100x100', { 'input_args' => 'page=2', 'output_args' => 'Q=50', 'format' => 'jpg' })
 ```
 
 corresponds to the command-line
