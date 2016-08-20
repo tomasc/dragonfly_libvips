@@ -6,7 +6,8 @@ module DragonflyLibvips
 
       def call(content, geometry, opts = {})
         image_properties = content.analyse(:image_properties)
-        content.process!(:vipsthumbnail, args_for_geometry(geometry, image_properties), opts)
+        args = [args_for_geometry(geometry, image_properties), opts['args']].compact.join(' ')
+        content.process!(:vipsthumbnail, args, opts)
       end
 
       def update_url(url_attributes, _geometry, opts = {})
