@@ -19,7 +19,7 @@ before_install:
   # Build libvips
   - curl -O http://www.vips.ecs.soton.ac.uk/supported/$LIBVIPS_VERSION_MAJOR.$LIBVIPS_VERSION_MINOR/vips-$LIBVIPS_VERSION.tar.gz
   - tar zvxf vips-$LIBVIPS_VERSION.tar.gz && cd vips-$LIBVIPS_VERSION
-  - ./configure --enable-debug=no --without-python $1
+  - ./configure $1
   - sudo make
   - sudo make install
   - sudo ldconfig
