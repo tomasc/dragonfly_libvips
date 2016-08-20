@@ -6,29 +6,14 @@ sudo: required
 dist: trusty
 rvm:
   - 2.2.5
-env:
-  - LIBVIPS_VERSION_MAJOR=8 LIBVIPS_VERSION_MINOR=2 LIBVIPS_VERSION_PATCH=3 LIBVIPS_VERSION=$LIBVIPS_VERSION_MAJOR.$LIBVIPS_VERSION_MINOR.$LIBVIPS_VERSION_PATCH
 before_install:
   - gem install bundler -v 1.12.5
-
-  # Install dependencies
+  - sudo add-apt-repository ppa:dhor/myway
   - sudo apt-get update
-  - DEBIAN_FRONTEND=noninteractive sudo apt-get install -y automake build-essential curl gobject-introspection gtk-doc-tools libglib2.0-dev libjpeg-turbo8-dev libpng12-dev libwebp-dev libtiff5-dev libexif-dev libxml2-dev swig libmagickwand-dev libpango1.0-dev libmatio-dev libopenslide-dev libcfitsio3-dev python-poppler
-
-  # Build libvips
-  - curl -O http://www.vips.ecs.soton.ac.uk/supported/$LIBVIPS_VERSION_MAJOR.$LIBVIPS_VERSION_MINOR/vips-$LIBVIPS_VERSION.tar.gz
-  - tar zvxf vips-$LIBVIPS_VERSION.tar.gz && cd vips-$LIBVIPS_VERSION
-  - ./configure --enable-debug=no --without-orc --without-fftw --without-gsf $1
-  - sudo make
-  - sudo make install
-  - sudo ldconfig
-
-  # Clean up
-  - sudo apt-get remove -y curl automake build-essential
-  - sudo apt-get autoremove -y
-  - sudo apt-get autoclean
-  - sudo apt-get clean
-  - sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  - sudo apt-get install vips
+  - vips --version
+  - vipsheader --version
+  - vipsthumbnail --version
 
 notifications:
   email:
