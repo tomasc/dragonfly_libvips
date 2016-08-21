@@ -13,7 +13,7 @@ module DragonflyLibvips
           output_args = "[#{output_args}]"
         end
 
-        args = [args, "--eprofile=#{EPROFILE_PATH}"].compact.join(' ') unless args.include?('eprofile')
+        # args = [args, "--eprofile=#{EPROFILE_PATH}"].compact.join(' ') unless args.include?('eprofile')
 
         content.shell_update ext: format do |old_path, new_path|
           "#{vipsthumbnail_command} #{old_path}#{input_args} -o #{new_path}#{output_args} #{args}"
