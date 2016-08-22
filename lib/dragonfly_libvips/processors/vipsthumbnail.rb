@@ -1,3 +1,5 @@
+require 'dragonfly_libvips'
+
 module DragonflyLibvips
   module Processors
     class Vipsthumbnail
