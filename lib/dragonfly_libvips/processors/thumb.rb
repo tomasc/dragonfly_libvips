@@ -1,3 +1,5 @@
+require 'dragonfly_libvips/dimensions'
+
 module DragonflyLibvips
   module Processors
     class Thumb
