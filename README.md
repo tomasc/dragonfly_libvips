@@ -112,7 +112,7 @@ corresponds to the command-line
 vipsthumbnail  <original_path>[page=2] --size=100x100 -o <new-path>[Q=50]  --eprofile=./vendor/sRGB_v4_ICC_preference.icc
 ```
 
-Please note that unless specified a default sRGB profile is added (required for conversion from CMYK, for example). It can be overridden by specifying alternative on in the processors args:
+Please note that unless specified a default sRGB profile will be embedded in the result. It can be overridden by specifying alternative on in the processors args:
 
 ```ruby
 image.vipsthumbnail('--size=100x100 --eprofile=./my_custom_profile.icc')
