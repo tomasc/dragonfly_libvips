@@ -54,9 +54,9 @@ describe DragonflyLibvips::Processors::Thumb do
       end
 
       it 'resizes if the image is smaller than specified' do
-        processor.call(image, '400x400<')
-        image.must_have_width 315
-        image.must_have_height 400
+        processor.call(image, '500x500<')
+        image.must_have_width 394
+        image.must_have_height 499
       end
     end
   end
@@ -82,12 +82,6 @@ describe DragonflyLibvips::Processors::Thumb do
     it "doesn't update the url ext if not passed in" do
       processor.update_url(url_attributes, '2x2')
       url_attributes.ext.must_be_nil
-    end
-  end
-
-  describe 'args_for_geometry' do
-    it 'returns the convert arguments used for a given geometry' do
-      processor.args_for_geometry('30x40', {}).must_equal '-s 30x40'
     end
   end
 end

@@ -1,4 +1,5 @@
 require 'dragonfly'
+require 'dragonfly_libvips/dimensions'
 require 'dragonfly_libvips/plugin'
 require 'dragonfly_libvips/version'
 
