@@ -1,6 +1,6 @@
 # Dragonfly libvips
 
-[![Build Status](https://travis-ci.org/tomasc/dragonfly_libvips.svg)](https://travis-ci.org/tomasc/dragonfly_libvips) [![Gem Version](https://badge.fury.io/rb/dragonfly_libvips.svg)](http://badge.fury.io/rb/dragonfly_libvips) [![Coverage Status](https://img.shields.io/coveralls/tomasc/dragonfly_libvips.svg)](https://coveralls.io/r/tomasc/dragonfly_pdf)
+[![Build Status](https://travis-ci.org/tomasc/dragonfly_libvips.svg)](https://travis-ci.org/tomasc/dragonfly_libvips) [![Gem Version](https://badge.fury.io/rb/dragonfly_libvips.svg)](http://badge.fury.io/rb/dragonfly_libvips) [![Coverage Status](https://img.shields.io/coveralls/tomasc/dragonfly_libvips.svg)](https://coveralls.io/r/tomasc/dragonfly_libvips)
 
 Dragonfly analysers and processors for [libvips](https://github.com/jcupitt/libvips) image processing library
 
