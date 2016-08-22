@@ -25,7 +25,7 @@ module DragonflyLibvips
       end
 
       def resize_args(geometry, image_properties)
-        res = Dimensions.call(geometry, image_properties['width'], image_properties['height'])
+        res = DragonflyLibvips::Dimensions.call(geometry, image_properties['width'], image_properties['height'])
         "-s #{res.width.round}x#{res.height.round}"
       end
     end
