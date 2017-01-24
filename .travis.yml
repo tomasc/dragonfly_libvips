@@ -10,6 +10,7 @@ env:
   - LIBVIPS_VERSION_MAJOR=8 LIBVIPS_VERSION_MINOR=3 LIBVIPS_VERSION_PATCH=3 LIBVIPS_VERSION=$LIBVIPS_VERSION_MAJOR.$LIBVIPS_VERSION_MINOR.$LIBVIPS_VERSION_PATCH
 before_install:
   - gem install bundler -v 1.12.5
+  - apt-get install gobject-introspection
   - curl -s https://raw.githubusercontent.com/lovell/sharp/v0.17.0/preinstall.sh | sudo bash -
 
 notifications:
