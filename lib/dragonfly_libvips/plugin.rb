@@ -2,7 +2,6 @@ require 'dragonfly_libvips/analysers/image_properties'
 require 'dragonfly_libvips/processors/encode'
 require 'dragonfly_libvips/processors/rotate'
 require 'dragonfly_libvips/processors/thumb'
-require 'vips'
 
 module DragonflyLibvips
   class Plugin
