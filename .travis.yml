@@ -8,7 +8,7 @@ rvm:
   - 2.2.5
 before_install:
   - gem install bundler -v 1.12.5
-  - sudo apt-get install libvips --enable-introspection
+  - sudo apt-get install libvips-dev
 
 notifications:
   email:
