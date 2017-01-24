@@ -8,11 +8,11 @@ rvm:
   - 2.2.5
 before_install:
   - gem install bundler -v 1.12.5
-  - sudo apt-get install -y gobject-introspection
+  - sudo apt-get install -y gobject-introspection gir1.2-vips-8.0
   - curl -O https://poppler.freedesktop.org/poppler-0.51.0.tar.xz
   - tar xf poppler-0.51.0.tar.xz && cd poppler-0.51.0 && ./configure --prefix=/usr --sysconfdir=/etc --disable-static --enable-build-type=release --enable-cmyk --enable-xpdf-headers --with-testdatadir=$PWD/testfiles && sudo make && sudo make install
   - curl -O http://www.vips.ecs.soton.ac.uk/supported/8.4/vips-8.4.5.tar.gz
-  - tar zvxf vips-8.4.5.tar.gz && cd vips-8.4.5 && ./configure $1 && sudo make && sudo make install
+  - tar zvxf vips-8.4.5.tar.gz && cd vips-8.4.5 && ./configure $1 --enable-introspection && sudo make && sudo make install
   - sudo ldconfig
 
 notifications:
