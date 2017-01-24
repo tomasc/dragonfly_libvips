@@ -9,7 +9,7 @@ rvm:
 before_install:
   - gem install bundler -v 1.12.5
   - sudo apt-get update
-  - sudo apt-get install -y gobject-introspection libgirepository1.0-dev
+  - sudo apt-get install -y gobject-introspection libgirepository1.0-dev gtk-doc-tools libglib2.0-dev libpoppler-glib-dev
   - export GI_TYPELIB_PATH="$VIPS_LIBDIR/girepository-1.0"
   - curl -O https://poppler.freedesktop.org/poppler-0.51.0.tar.xz
   - tar xf poppler-0.51.0.tar.xz && cd poppler-0.51.0 && ./configure --prefix=/usr --sysconfdir=/etc --disable-static --enable-build-type=release --enable-cmyk --enable-xpdf-headers --with-testdatadir=$PWD/testfiles && sudo make && sudo make install
