@@ -9,6 +9,8 @@ rvm:
 before_install:
   - gem install bundler -v 1.12.5
   - sudo apt-get install libvips-dev
+  - vips --version
+  - find . -name "*.typelib"
 
 notifications:
   email:
