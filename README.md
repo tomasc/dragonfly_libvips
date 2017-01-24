@@ -73,7 +73,7 @@ image.encode('jpg')
 optionally pass output arguments (specific to format)
 
 ```ruby
-image.encode('jpg', output_options: { Q: 50 })
+image.encode('jpg')
 ```
 
 #### Rotate
@@ -82,6 +82,15 @@ Rotate a number of degrees with
 
 ```ruby
 image.rotate(90)
+```
+
+#### Options
+
+All processors support `input_options` and `output_options` for passing additional options to vips. For example:
+
+```ruby
+image.encode('jpg', output_options: { Q: 50 })
+pdf.encode('jpg', input_options: { page: 0, dpi: 600 })
 ```
 
 ### Analysers
