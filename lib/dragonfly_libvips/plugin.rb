@@ -6,7 +6,7 @@ require 'vips'
 
 module DragonflyLibvips
   class Plugin
-    def call(app, opts = {})
+    def call(app, _opts = {})
       # Analysers
       app.add_analyser :image_properties, DragonflyLibvips::Analysers::ImageProperties.new
 

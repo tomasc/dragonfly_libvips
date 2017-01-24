@@ -11,7 +11,7 @@ module DragonflyLibvips
           'width' => img.width,
           'height' => img.height,
           'xres' => img.xres,
-          'yres' => img.yres,
+          'yres' => img.yres
         }
       end
     end

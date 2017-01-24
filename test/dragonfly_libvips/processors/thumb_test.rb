@@ -2,11 +2,11 @@ require 'test_helper'
 require 'ostruct'
 
 describe DragonflyLibvips::Processors::Thumb do
-  let (:app) { test_libvips_app }
-  let (:image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('beach.png')) } # 280x355
-  let (:pdf) { Dragonfly::Content.new(app, SAMPLES_DIR.join('memo.pdf')) }
-  let (:landscape_image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('landscape_beach.png')) } # 355x280
-  let (:processor) { DragonflyLibvips::Processors::Thumb.new }
+  let(:app) { test_libvips_app }
+  let(:image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('beach.png')) } # 280x355
+  let(:pdf) { Dragonfly::Content.new(app, SAMPLES_DIR.join('memo.pdf')) }
+  let(:landscape_image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('landscape_beach.png')) } # 355x280
+  let(:processor) { DragonflyLibvips::Processors::Thumb.new }
 
   it 'raises an error if an unrecognized string is given' do
     assert_raises(ArgumentError) do
@@ -63,12 +63,12 @@ describe DragonflyLibvips::Processors::Thumb do
   end
 
   describe 'format' do
-    let (:url_attributes) { OpenStruct.new }
+    let(:url_attributes) { OpenStruct.new }
 
     it 'changes the format if passed in' do
       processor.call(image, '2x2', format: 'jpeg', output_options: { Q: 50 })
       image.ext.must_equal 'jpeg'
-      image.size.must_equal 769
+      image.size.must_equal 61_747
     end
 
     it "doesn't change the format if not passed in" do

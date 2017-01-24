@@ -93,6 +93,13 @@ image.encode('jpg', output_options: { Q: 50 })
 pdf.encode('jpg', input_options: { page: 0, dpi: 600 })
 ```
 
+Defaults:
+
+```ruby
+input_options: { access: :sequential }
+output_options: { profile: … } # embeds 'sRGB_v4_ICC_preference.icc' profile included with this gem
+```
+
 ### Analysers
 
 The following methods are provided

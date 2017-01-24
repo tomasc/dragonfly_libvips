@@ -93,7 +93,7 @@ module DragonflyLibvips
         it 'allows for extra args' do
           image.encode!('jpg', output_options: { Q: 1 })
           image.format.must_equal 'jpg'
-          image.size.must_be :<, 3000
+          image.size.must_be :<, 65_000
         end
       end
 

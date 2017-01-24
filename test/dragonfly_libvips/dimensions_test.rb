@@ -17,7 +17,7 @@ describe DragonflyLibvips::Dimensions do
 
       it { result.width.must_equal 250 }
       it { result.height.must_equal 250 }
-      it { result.scale.must_equal 250.0/orig_w }
+      it { result.scale.must_equal 250.0 / orig_w }
 
       describe '250x250>' do
         let(:dimensions) { '250x250>' }
@@ -26,7 +26,7 @@ describe DragonflyLibvips::Dimensions do
           it 'resize' do
             result.width.must_equal 250
             result.height.must_equal 250
-            result.scale.must_equal 250.0/orig_w
+            result.scale.must_equal 250.0 / orig_w
           end
         end
 
@@ -36,7 +36,7 @@ describe DragonflyLibvips::Dimensions do
           it 'do not resize' do
             result.width.must_equal 100
             result.height.must_equal 100
-            result.scale.must_equal 100.0/orig_w
+            result.scale.must_equal 100.0 / orig_w
           end
         end
       end
@@ -48,7 +48,7 @@ describe DragonflyLibvips::Dimensions do
           it 'do not resize' do
             result.width.must_equal 1000
             result.height.must_equal 1000
-            result.scale.must_equal 1000.0/orig_w
+            result.scale.must_equal 1000.0 / orig_w
           end
         end
 
@@ -59,7 +59,7 @@ describe DragonflyLibvips::Dimensions do
           it 'do resize' do
             result.width.must_equal 250
             result.height.must_equal 250
-            result.scale.must_equal 250.0/orig_w
+            result.scale.must_equal 250.0 / orig_w
           end
         end
       end
@@ -71,7 +71,7 @@ describe DragonflyLibvips::Dimensions do
 
       it { result.width.must_equal 250 }
       it { result.height.must_equal 125 }
-      it { result.scale.must_equal 250.0/orig_w }
+      it { result.scale.must_equal 250.0 / orig_w }
     end
 
     describe 'when portrait' do
@@ -80,7 +80,7 @@ describe DragonflyLibvips::Dimensions do
 
       it { result.width.must_equal 125 }
       it { result.height.must_equal 250 }
-      it { result.scale.must_equal 125.0/orig_w }
+      it { result.scale.must_equal 125.0 / orig_w }
     end
   end
 
@@ -95,7 +95,7 @@ describe DragonflyLibvips::Dimensions do
 
       it { result.width.must_equal 250 }
       it { result.height.must_equal 250 }
-      it { result.scale.must_equal 250.0/orig_w }
+      it { result.scale.must_equal 250.0 / orig_w }
     end
 
     describe 'when landscape' do
@@ -104,7 +104,7 @@ describe DragonflyLibvips::Dimensions do
 
       it { result.width.must_equal 250 }
       it { result.height.must_equal 125 }
-      it { result.scale.must_equal 250.0/orig_w }
+      it { result.scale.must_equal 250.0 / orig_w }
     end
 
     describe 'when portrait' do
@@ -113,7 +113,7 @@ describe DragonflyLibvips::Dimensions do
 
       it { result.width.must_equal 250 }
       it { result.height.must_equal 500 }
-      it { result.scale.must_equal 250.0/orig_w }
+      it { result.scale.must_equal 250.0 / orig_w }
     end
   end
 
@@ -128,7 +128,7 @@ describe DragonflyLibvips::Dimensions do
 
       it { result.width.must_equal 250 }
       it { result.height.must_equal 250 }
-      it { result.scale.must_equal 250.0/orig_w }
+      it { result.scale.must_equal 250.0 / orig_w }
     end
 
     describe 'when landscape' do
@@ -137,7 +137,7 @@ describe DragonflyLibvips::Dimensions do
 
       it { result.width.must_equal 500 }
       it { result.height.must_equal 250 }
-      it { result.scale.must_equal 500.0/orig_w }
+      it { result.scale.must_equal 500.0 / orig_w }
     end
 
     describe 'when portrait' do
@@ -146,7 +146,7 @@ describe DragonflyLibvips::Dimensions do
 
       it { result.width.must_equal 125 }
       it { result.height.must_equal 250 }
-      it { result.scale.must_equal 125.0/orig_w }
+      it { result.scale.must_equal 125.0 / orig_w }
     end
   end
 end
