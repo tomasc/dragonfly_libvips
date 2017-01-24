@@ -8,7 +8,7 @@ rvm:
   - 2.2.5
 before_install:
   - gem install bundler -v 1.12.5
-  - sudo apt-get install -y gobject-introspection gtk-doc-tools libglib2.0-dev libjpeg62-turbo-dev libpng12-dev libwebp-dev libtiff5-dev libexif-dev libxml2-dev swig libpango1.0-dev libmatio-dev libopenslide-dev libcfitsio3-dev libgif-dev librsvg2-dev libfftw3-dev liblcms2-dev libpangoft2-1.0-0 liborc-0.4-dev libcairo2-dev libfontconfig1 libfontconfig1-dev
+  - sudo apt-get install -y gobject-introspection gtk-doc-tools libglib2.0-dev libjpeg62-dev libpng12-dev libwebp-dev libtiff5-dev libexif-dev libxml2-dev swig libpango1.0-dev libmatio-dev libopenslide-dev libcfitsio3-dev libgif-dev librsvg2-dev libfftw3-dev liblcms2-dev libpangoft2-1.0-0 liborc-0.4-dev libcairo2-dev libfontconfig1 libfontconfig1-dev
   - curl -O https://poppler.freedesktop.org/poppler-0.51.0.tar.xz
   - tar xf poppler-0.51.0.tar.xz && cd poppler-0.51.0 && ./configure --prefix=/usr --sysconfdir=/etc --disable-static --enable-build-type=release --enable-cmyk --enable-xpdf-headers --with-testdatadir=$PWD/testfiles && sudo make && sudo make install
   - curl -O http://www.vips.ecs.soton.ac.uk/supported/8.4/vips-8.4.5.tar.gz
