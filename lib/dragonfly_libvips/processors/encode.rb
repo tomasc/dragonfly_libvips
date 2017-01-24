@@ -5,7 +5,7 @@ module DragonflyLibvips
     class Encode
       def call(content, format, input_options: {}, output_options: {})
         input_options[:access] ||= :sequential
-        output_options[:profile] ||= EPROFILE_PATH
+        output_options[:profile] ||= DragonflyLibvips::EPROFILE_PATH
 
         img = ::Vips::Image.new_from_file(content.path, input_options)
 
