@@ -1,15 +1,15 @@
-def image_properties(image)
-  details = `vipsheader #{image.path}`
-  raise "couldn't identify #{image.path} in image_properties" if details.empty?
-  filename, dimensions, _bands, _interpretation, vips_loader = details.split(/\s*[:,]\s*/)
-  width, height = dimensions.split(/\s+/).first.split('x')
-  format = vips_loader.gsub(/\s*load\s*/, '').downcase
+require 'vips'
+
+def image_properties(content)
+
+  img = Vips::Image.new_from_file(content.path, access: :sequential)
 
   {
-    filename: filename,
-    format: format.downcase,
-    width: width.to_i,
-    height: height.to_i
+    format: File.extname(img.filename)[1..-1],
+    width: img.width,
+    height: img.height,
+    xres: img.xres,
+    yres: img.yres,
   }
 end
 

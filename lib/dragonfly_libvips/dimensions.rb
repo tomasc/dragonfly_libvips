@@ -5,8 +5,8 @@ module DragonflyLibvips
     end
 
     def call
-      return OpenStruct.new(width: orig_w, height: orig_h) if do_not_resize_if_image_smaller_than_requested? || do_not_resize_if_image_larger_than_requested?
-      OpenStruct.new(width: width, height: height)
+      return OpenStruct.new(width: orig_w, height: orig_h, scale: 1) if do_not_resize_if_image_smaller_than_requested? || do_not_resize_if_image_larger_than_requested?
+      OpenStruct.new(width: width, height: height, scale: scale)
     end
 
     private
@@ -25,6 +25,10 @@ module DragonflyLibvips
       else
         dimensions_specified_by_height? ? dimensions.height : dimensions.width * aspect_ratio
       end
+    end
+
+    def scale
+      width.to_f / orig_w.to_f
     end
 
     def dimensions

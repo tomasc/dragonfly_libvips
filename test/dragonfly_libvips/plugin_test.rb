@@ -5,25 +5,6 @@ module DragonflyLibvips
     let(:app) { test_app.configure_with(:libvips) }
     let(:image) { app.fetch_file(SAMPLES_DIR.join('beach.png')) }
 
-    describe 'env variables' do
-      let(:app) { test_app }
-
-      it 'allows setting the vips command' do
-        app.configure { plugin :libvips, vips_command: '/bin/vips' }
-        app.env[:vips_command].must_equal '/bin/vips'
-      end
-
-      it 'allows setting the vipsheader command' do
-        app.configure { plugin :libvips, vipsheader_command: '/bin/vipsheader' }
-        app.env[:vipsheader_command].must_equal '/bin/vipsheader'
-      end
-
-      it 'allows setting the vipsthumbnail command' do
-        app.configure { plugin :libvips, vipsthumbnail_command: '/bin/vipsthumbnail' }
-        app.env[:vipsthumbnail_command].must_equal '/bin/vipsthumbnail'
-      end
-    end
-
     describe 'analysers' do
       it 'returns the width' do
         image.width.must_equal 280
@@ -37,14 +18,22 @@ module DragonflyLibvips
         image.aspect_ratio.must_equal (280.0 / 355.0)
       end
 
+      it 'returns the xres' do
+        image.xres.must_equal 72.0
+      end
+
+      it 'returns the yres' do
+        image.yres.must_equal 72.0
+      end
+
       it "says if it's portrait" do
         image.portrait?.must_equal true
-        image.portrait.must_equal true # for using with magic attributes
+        image.portrait.must_equal true # for use with magic attributes
       end
 
       it "says if it's landscape" do
         image.landscape?.must_equal false
-        image.landscape.must_equal false # for using with magic attributes
+        image.landscape.must_equal false # for use with magic attributes
       end
 
       it 'returns the format' do
@@ -53,7 +42,7 @@ module DragonflyLibvips
 
       it "says if it's an image" do
         image.image?.must_equal true
-        image.image.must_equal true # for using with magic attributes
+        image.image.must_equal true # for use with magic attributes
       end
 
       it "says if it's not an image" do
@@ -66,30 +55,30 @@ module DragonflyLibvips
         app.configure { url_format '/:name' }
       end
 
-      describe 'convert' do
-        it 'sanity check with format' do
-          thumb = image.vips('resize', '0.5', 'format' => 'jpg')
-          thumb.url.must_match(/^\/beach\.jpg\?.*job=\w+/)
-          thumb.width.must_equal 140
-          thumb.format.must_equal 'jpeg'
-          thumb.meta['format'].must_equal 'jpg'
-        end
-
-        it 'sanity check without format' do
-          thumb = image.vips('resize', '0.5')
+      describe 'encode' do
+        it 'sanity check' do
+          thumb = image.encode('png')
           thumb.url.must_match(/^\/beach\.png\?.*job=\w+/)
-          thumb.width.must_equal 140
           thumb.format.must_equal 'png'
-          thumb.meta['format'].must_be_nil
+          thumb.meta['format'].must_equal 'png'
         end
       end
 
-      describe 'encode' do
+      describe 'rotate' do
         it 'sanity check' do
-          thumb = image.encode('jpg')
-          thumb.url.must_match(/^\/beach\.jpg\?.*job=\w+/)
-          thumb.format.must_equal 'jpeg'
-          thumb.meta['format'].must_equal 'jpg'
+          thumb = image.rotate(90, format: 'png')
+          thumb.url.must_match(/^\/beach\.png\?.*job=\w+/)
+          thumb.format.must_equal 'png'
+          thumb.meta['format'].must_equal 'png'
+        end
+      end
+
+      describe 'thumb' do
+        it 'sanity check' do
+          thumb = image.thumb('100x', format: 'png')
+          thumb.url.must_match(/^\/beach\.png\?.*job=\w+/)
+          thumb.format.must_equal 'png'
+          thumb.meta['format'].must_equal 'png'
         end
       end
     end
@@ -98,12 +87,12 @@ module DragonflyLibvips
       describe 'encode' do
         it 'encodes the image to the correct format' do
           image.encode!('jpg')
-          image.format.must_equal 'jpeg'
+          image.format.must_equal 'jpg'
         end
 
         it 'allows for extra args' do
-          image.encode!('jpg', 'Q=1')
-          image.format.must_equal 'jpeg'
+          image.encode!('jpg', output_options: { Q: 1 })
+          image.format.must_equal 'jpg'
           image.size.must_be :<, 3000
         end
       end
@@ -114,13 +103,6 @@ module DragonflyLibvips
           image.width.must_equal 355
           image.height.must_equal 280
         end
-      end
-    end
-
-    describe 'vipsheader' do
-      it 'gives the output of the command line' do
-        image.vipsheader.must_match(/280/)
-        image.vipsheader('-f filename').must_include 'beach.png'
       end
     end
   end

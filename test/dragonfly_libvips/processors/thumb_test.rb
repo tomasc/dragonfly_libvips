@@ -4,6 +4,7 @@ require 'ostruct'
 describe DragonflyLibvips::Processors::Thumb do
   let (:app) { test_libvips_app }
   let (:image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('beach.png')) } # 280x355
+  let (:pdf) { Dragonfly::Content.new(app, SAMPLES_DIR.join('memo.pdf')) }
   let (:landscape_image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('landscape_beach.png')) } # 355x280
   let (:processor) { DragonflyLibvips::Processors::Thumb.new }
 
@@ -28,7 +29,7 @@ describe DragonflyLibvips::Processors::Thumb do
 
     it 'works with NNxNN' do
       processor.call(image, '30x30')
-      image.must_have_width 23
+      image.must_have_width 24
       image.must_have_height 30
     end
 
@@ -41,7 +42,7 @@ describe DragonflyLibvips::Processors::Thumb do
 
       it 'resizes if the image is larger than specified' do
         processor.call(image, '30x30>')
-        image.must_have_width 23
+        image.must_have_width 24
         image.must_have_height 30
       end
     end
@@ -56,7 +57,7 @@ describe DragonflyLibvips::Processors::Thumb do
       it 'resizes if the image is smaller than specified' do
         processor.call(image, '500x500<')
         image.must_have_width 394
-        image.must_have_height 499
+        image.must_have_height 500
       end
     end
   end
@@ -65,13 +66,14 @@ describe DragonflyLibvips::Processors::Thumb do
     let (:url_attributes) { OpenStruct.new }
 
     it 'changes the format if passed in' do
-      processor.call(image, '2x2', 'format' => 'jpeg')
-      image.must_have_format 'jpeg'
+      processor.call(image, '2x2', format: 'jpeg', output_options: { Q: 50 })
+      image.ext.must_equal 'jpeg'
+      image.size.must_equal 769
     end
 
     it "doesn't change the format if not passed in" do
       processor.call(image, '2x2')
-      image.must_have_format 'png'
+      image.ext.must_equal 'png'
     end
 
     it 'updates the url ext if passed in' do

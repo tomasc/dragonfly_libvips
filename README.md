@@ -73,7 +73,7 @@ image.encode('jpg')
 optionally pass output arguments (specific to format)
 
 ```ruby
-image.encode('jpg', 'Q=50')
+image.encode('jpg', output_options: { Q: 50 })
 ```
 
 #### Rotate
@@ -84,41 +84,6 @@ Rotate a number of degrees with
 image.rotate(90)
 ```
 
-#### Vips
-
-Perform an arbitrary `vips` command
-
-```ruby
-image.vips('resize', '0.5', { 'input_args' => 'page=2', 'output_args' => 'Q=50', 'format' => 'jpg' })
-```
-
-corresponds to the command-line
-
-```
-vips resize <original_path>[page=2] <new_path>[Q=50] 0.5
-```
-
-#### Vipsthumbnail
-
-Perform an arbitrary `vipsthumbnail` command
-
-```ruby
-image.vipsthumbnail('--size=100x100', { 'input_args' => 'page=2', 'output_args' => 'Q=50', 'format' => 'jpg' })
-```
-
-corresponds to the command-line
-
-```
-vipsthumbnail  <original_path>[page=2] --size=100x100 -o <new-path>[Q=50]  --eprofile=./vendor/sRGB_v4_ICC_preference.icc
-```
-
-Please note that unless specified a default sRGB profile is added (required for conversion from CMYK, for example). It can be overridden by specifying alternative on in the processors args:
-
-```ruby
-image.vipsthumbnail('--size=100x100 --eprofile=./my_custom_profile.icc')
-```
-
-
 ### Analysers
 
 The following methods are provided
@@ -126,27 +91,14 @@ The following methods are provided
 ```ruby
 image.width # => 280
 image.height # => 355
+image.xres # => 72.0
+image.yres # => 72.0
 image.aspect_ratio # => 0.788732394366197
 image.portrait? # => true
 image.landscape? # => false
 image.format # => 'png'
 image.image? # => true
 ```
-
-### Configuration
-
-```ruby
-Dragonfly.app.configure do
-  plugin :libvips,
-          vips_command: "/opt/local/bin/vips" # defaults to "vips"
-          vipsheader_command: "/opt/local/bin/vipsheader" # defaults to "vipsheader"
-          vipsthumbnail_command: "/opt/local/bin/vipsthumbnail" # defaults to "vipsthumbnail"
-end
-```
-
-## Acknowledgements
-
-This plugin, its structure, sample files, tests as well as this README are based on the original Dragonfly's [ImageMagick plugin](http://markevans.github.io/dragonfly/imagemagick) by Mark Evans.
 
 ## Development
 

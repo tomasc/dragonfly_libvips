@@ -1,34 +1,34 @@
 require 'dragonfly_libvips/dimensions'
+require 'vips'
 
 module DragonflyLibvips
   module Processors
     class Thumb
       OPERATORS = '><'.freeze
       RESIZE_GEOMETRY = /\A\d*x\d*[#{OPERATORS}]?\z/ # e.g. '300x200>'
+      RESIZE_KEYS = %w(kernel).freeze
 
-      def call(content, geometry, opts = {})
-        image_properties = content.analyse(:image_properties)
-        args = [args_for_geometry(geometry, image_properties), opts['args']].compact.join(' ')
-        content.process!(:vipsthumbnail, args, opts)
+      def call(content, geometry, format: content.ext, input_options: {}, resize_options: {}, output_options: {})
+        input_options[:access] ||= :sequential
+
+        img = ::Vips::Image.new_from_file(content.path, input_options)
+
+        dimensions = case geometry
+                     when RESIZE_GEOMETRY then DragonflyLibvips::Dimensions.call(geometry, img.width, img.height)
+                     else raise ArgumentError, "Didn't recognise the geometry string #{geometry}"
+        end
+
+        if dimensions.scale != 1
+          img = img.resize(dimensions.scale, resize_options)
+        end
+
+        content.update(img.write_to_buffer(".#{format}", output_options), { 'format' => format })
+        content.ext = format
       end
 
-      def update_url(url_attributes, _geometry, opts = {})
+      def update_url(url_attributes, _, opts = {})
         format = opts['format']
         url_attributes.ext = format if format
-      end
-
-      private
-
-      def args_for_geometry(geometry, image_properties)
-        case geometry
-        when RESIZE_GEOMETRY then resize_args(geometry, image_properties)
-        else raise ArgumentError, "Didn't recognise the geometry string #{geometry}"
-        end
-      end
-
-      def resize_args(geometry, image_properties)
-        res = DragonflyLibvips::Dimensions.call(geometry, image_properties['width'], image_properties['height'])
-        "-s #{res.width.round}x#{res.height.round}"
       end
     end
   end
