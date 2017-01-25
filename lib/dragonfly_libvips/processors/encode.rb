@@ -1,9 +1,12 @@
+require 'active_support/core_ext/hash'
 require 'vips'
 
 module DragonflyLibvips
   module Processors
     class Encode
       def call(content, format, options = {})
+        options = options.deep_stringify_keys
+
         input_options = options.fetch('input_options', {})
         output_options = options.fetch('output_options', {})
 
@@ -16,8 +19,8 @@ module DragonflyLibvips
         content.ext = format
       end
 
-      def update_url(attrs, format, _args = '')
-        attrs.ext = format.to_s
+      def update_url(url_attributes, format, options = {})
+        url_attributes.ext = format.to_s
       end
     end
   end

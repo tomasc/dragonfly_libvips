@@ -1,3 +1,4 @@
+require 'active_support/core_ext/hash'
 require 'dragonfly_libvips/dimensions'
 require 'vips'
 
@@ -9,6 +10,8 @@ module DragonflyLibvips
       RESIZE_KEYS = %w(kernel).freeze
 
       def call(content, geometry, options = {})
+        options = options.deep_stringify_keys
+
         format = options.fetch('format', content.ext)
 
         input_options = options.fetch('input_options', {})
@@ -33,9 +36,12 @@ module DragonflyLibvips
         content.ext = format
       end
 
-      def update_url(url_attributes, _, opts = {})
-        format = opts['format']
-        url_attributes.ext = format if format
+      def update_url(url_attributes, _, options = {})
+        options = options.deep_stringify_keys
+
+        if format = options.fetch('format', nil)
+          url_attributes.ext = format
+        end
       end
     end
   end
