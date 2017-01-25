@@ -3,7 +3,12 @@ require 'vips'
 module DragonflyLibvips
   module Processors
     class Rotate
-      def call(content, rotate, format: content.ext, input_options: {}, resize_options: {}, output_options: {})
+      def call(content, rotate, options = {})
+        format = options.fetch(:format, content.ext)
+
+        input_options = options.fetch(:input_options, {})
+        output_options = options.fetch(:output_options, {})
+
         input_options[:access] ||= :sequential
         output_options[:profile] ||= DragonflyLibvips::EPROFILE_PATH
 

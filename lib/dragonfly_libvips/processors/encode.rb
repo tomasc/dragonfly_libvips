@@ -3,7 +3,10 @@ require 'vips'
 module DragonflyLibvips
   module Processors
     class Encode
-      def call(content, format, input_options: {}, output_options: {})
+      def call(content, format, options = {})
+        input_options = options.fetch(:input_options, {})
+        output_options = options.fetch(:output_options, {})
+
         input_options[:access] ||= :sequential
         output_options[:profile] ||= DragonflyLibvips::EPROFILE_PATH
 
