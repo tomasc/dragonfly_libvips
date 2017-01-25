@@ -9,14 +9,14 @@ module DragonflyLibvips
       RESIZE_KEYS = %w(kernel).freeze
 
       def call(content, geometry, options = {})
-        format = options.fetch(:format, content.ext)
+        format = options.fetch('format', content.ext)
 
-        input_options = options.fetch(:input_options, {})
-        resize_options = options.fetch(:resize_options, {})
-        output_options = options.fetch(:output_options, {})
+        input_options = options.fetch('input_options', {})
+        resize_options = options.fetch('resize_options', {})
+        output_options = options.fetch('output_options', {})
 
-        input_options[:access] ||= :sequential
-        output_options[:profile] ||= DragonflyLibvips::EPROFILE_PATH
+        input_options['access'] ||= 'sequential'
+        output_options['profile'] ||= DragonflyLibvips::EPROFILE_PATH
 
         img = ::Vips::Image.new_from_file(content.path, input_options)
 

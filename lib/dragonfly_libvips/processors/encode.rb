@@ -4,11 +4,11 @@ module DragonflyLibvips
   module Processors
     class Encode
       def call(content, format, options = {})
-        input_options = options.fetch(:input_options, {})
-        output_options = options.fetch(:output_options, {})
+        input_options = options.fetch('input_options', {})
+        output_options = options.fetch('output_options', {})
 
-        input_options[:access] ||= :sequential
-        output_options[:profile] ||= DragonflyLibvips::EPROFILE_PATH
+        input_options['access'] ||= 'sequential'
+        output_options['profile'] ||= DragonflyLibvips::EPROFILE_PATH
 
         img = ::Vips::Image.new_from_file(content.path, input_options)
 
