@@ -28,6 +28,10 @@ Or install it yourself as:
 $ gem install dragonfly_libvips
 ```
 
+### libvips
+
+If you run into trouble installing `libvips` with ruby introspection on Linux, follow the [build steps here](https://github.com/tomasc/dragonfly_libvips/blob/master/.travis.yml). Please note the importance of `gobject-introspection` and `libgirepository1.0-dev` plus the `export GI_TYPELIB_PATH=/usr/local/lib/girepository-1.0/` and `ldconfig`.
+
 ## Dependencies
 
 The [vips](http://www.vips.ecs.soton.ac.uk/index.php?title=Supported) library and its [dependencies](https://github.com/jcupitt/libvips#dependencies).
