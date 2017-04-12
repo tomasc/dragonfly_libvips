@@ -1,5 +1,4 @@
 require 'active_support/core_ext/hash'
-require 'vips'
 
 module DragonflyLibvips
   module Processors
@@ -15,6 +14,7 @@ module DragonflyLibvips
         input_options['access'] ||= 'sequential'
         output_options['profile'] ||= DragonflyLibvips::EPROFILE_PATH
 
+        require 'vips'
         img = ::Vips::Image.new_from_file(content.path, input_options)
 
         img = img.rot("d#{rotate}")

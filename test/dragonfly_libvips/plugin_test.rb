@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'openssl'
 
 module DragonflyLibvips
   describe Plugin do
