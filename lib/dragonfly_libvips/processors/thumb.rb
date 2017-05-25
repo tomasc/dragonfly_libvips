@@ -1,12 +1,12 @@
 require 'active_support/core_ext/hash'
 require 'dragonfly_libvips/dimensions'
+require 'vips'
 
 module DragonflyLibvips
   module Processors
     class Thumb
       OPERATORS = '><'.freeze
       RESIZE_GEOMETRY = /\A\d*x\d*[#{OPERATORS}]?\z/ # e.g. '300x200>'
-      RESIZE_KEYS = %w(kernel).freeze
 
       def call(content, geometry, options = {})
         options = options.deep_stringify_keys
@@ -14,27 +14,30 @@ module DragonflyLibvips
         format = options.fetch('format', content.ext)
 
         input_options = options.fetch('input_options', {})
-        resize_options = options.fetch('resize_options', {})
+        thumbnail_options = options.fetch('thumbnail_options', {})
         output_options = options.fetch('output_options', {})
 
         input_options['access'] ||= 'sequential'
         output_options['profile'] ||= DragonflyLibvips::EPROFILE_PATH
 
-        puts "pid = #{Process.pid}"
-        require 'vips'
-        ::Vips::set_debug TRUE
         img = ::Vips::Image.new_from_file(content.path, input_options)
 
         dimensions = case geometry
-                     when RESIZE_GEOMETRY then DragonflyLibvips::Dimensions.call(geometry, img.width, img.height)
-                     else raise ArgumentError, "Didn't recognise the geometry string #{geometry}"
+        when RESIZE_GEOMETRY then DragonflyLibvips::Dimensions.call(geometry, img.width, img.height)
+        else raise ArgumentError, "Didn't recognise the geometry string #{geometry}"
         end
 
-        if dimensions.scale != 1
-          img = img.resize(dimensions.scale, resize_options)
+        thumbnail_options['height'] ||= dimensions.height.ceil
+
+        thumbnail_options['size'] ||= case geometry
+        when />\z/ then Vips::Size::DOWN # do_not_resize_if_image_smaller_than_requested
+        when /<\z/ then Vips::Size::UP # do_not_resize_if_image_larger_than_requested
+        else Vips::Size::BOTH
         end
 
-        content.update(img.write_to_buffer(".#{format}", output_options), 'format' => format)
+        thumb = ::Vips::Image.thumbnail(content.path, dimensions.width.ceil, thumbnail_options)
+
+        content.update(thumb.write_to_buffer(".#{format}", output_options), 'format' => format)
         content.ext = format
       end
 
