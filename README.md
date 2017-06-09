@@ -36,6 +36,8 @@ If you run into trouble installing `libvips` with Ruby introspection on Linux, f
 
 The [vips](http://www.vips.ecs.soton.ac.uk/index.php?title=Supported) library and its [dependencies](https://github.com/jcupitt/libvips#dependencies).
 
+Min. version `8.5.6`.
+
 ## Usage
 
 Configure your app the usual way:

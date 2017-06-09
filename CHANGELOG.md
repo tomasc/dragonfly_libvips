@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1.0
+
+* updated processor to take benefit of the new `thumbnail` method (requires `vips 8.5.6`)
+
 ## 1.0.4
 
 * `vips` is required closer to when the classes are called, in hope of fixing [#107](https://github.com/jcupitt/ruby-vips/issues/107)
