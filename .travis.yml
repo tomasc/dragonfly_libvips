@@ -11,8 +11,8 @@ before_install:
   - gem install bundler -v 1.12.5
   - sudo apt-get update
   - sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev
-  - curl -O http://www.vips.ecs.soton.ac.uk/supported/8.4/vips-8.4.5.tar.gz
-  - tar zvxf vips-8.4.5.tar.gz && cd vips-8.4.5 && ./configure && sudo make && sudo make install
+  - curl -OL https://github.com/jcupitt/libvips/releases/download/v8.5.6/vips-8.5.6.tar.gz
+  - tar zvxf vips-8.5.6.tar.gz && cd vips-8.5.6 && ./configure && sudo make && sudo make install
   - export GI_TYPELIB_PATH=/usr/local/lib/girepository-1.0/
   - sudo ldconfig
 

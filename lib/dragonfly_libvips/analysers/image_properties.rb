@@ -2,7 +2,6 @@ module DragonflyLibvips
   module Analysers
     class ImageProperties
       def call(content)
-        require 'vips'
         img = ::Vips::Image.new_from_file(content.path, access: :sequential)
 
         {
