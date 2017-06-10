@@ -1,11 +1,14 @@
 require 'dragonfly_libvips/analysers/image_properties'
 require 'dragonfly_libvips/processors/encode'
-require 'dragonfly_libvips/processors/rotate'
 require 'dragonfly_libvips/processors/thumb'
+require 'dragonfly_libvips/processors/vips'
 
 module DragonflyLibvips
   class Plugin
-    def call(app, _opts = {})
+    def call(app, options = {})
+      app.env[:vips_command] = options[:vips_command] || 'vips'
+      app.env[:vipsthumbnail_command] = options[:vipsthumbnail_command] || 'vipsthumbnail'
+
       # Analysers
       app.add_analyser :image_properties, DragonflyLibvips::Analysers::ImageProperties.new
 
@@ -58,8 +61,11 @@ module DragonflyLibvips
 
       # Processors
       app.add_processor :encode, Processors::Encode.new
+      app.add_processor :rotate do |content, amount, options={}|
+        content.process!(:vips, 'rot', "d#{amount}", options)
+      end
       app.add_processor :thumb, Processors::Thumb.new
-      app.add_processor :rotate, Processors::Rotate.new
+      app.add_processor :vips, Processors::Vips.new
     end
   end
 end

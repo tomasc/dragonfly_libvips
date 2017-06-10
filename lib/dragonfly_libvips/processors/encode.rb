@@ -6,17 +6,8 @@ module DragonflyLibvips
     class Encode
       def call(content, format, options = {})
         options = options.deep_stringify_keys
-
-        input_options = options.fetch('input_options', {})
-        output_options = options.fetch('output_options', {})
-
-        input_options['access'] ||= 'sequential'
-        output_options['profile'] ||= DragonflyLibvips::EPROFILE_PATH
-
-        img = ::Vips::Image.new_from_file(content.path, input_options)
-
-        content.update(img.write_to_buffer(".#{format}", output_options), 'format' => format)
-        content.ext = format
+        options = { 'format' => format }.merge(options)
+        content.process!(:vips, 'copy', '', options)
       end
 
       def update_url(url_attributes, format, options = {})

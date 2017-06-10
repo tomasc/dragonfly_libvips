@@ -10,44 +10,61 @@ module DragonflyLibvips
       RESIZE_GEOMETRY = /\A\d*x\d*[#{OPERATORS}]?\z/ # e.g. '300x200>'
 
       def call(content, geometry, options = {})
+        raise ArgumentError, "Didn't recognise the geometry string #{geometry}" unless geometry =~ RESIZE_GEOMETRY
+
         options = options.deep_stringify_keys
 
-        format = options.fetch('format', content.ext)
+        vipsthumbnail_command = content.env.fetch(:vipsthumbnail_command, 'vipsthumbnail')
+        format = options.fetch('format', nil)
 
-        input_options = options.fetch('input_options', {})
-        thumbnail_options = options.fetch('thumbnail_options', {})
-        output_options = options.fetch('output_options', {})
-
-        input_options['access'] ||= 'sequential'
-        output_options['profile'] ||= DragonflyLibvips::EPROFILE_PATH
-
-        img = ::Vips::Image.new_from_file(content.path, input_options)
-
-        dimensions = case geometry
-        when RESIZE_GEOMETRY then DragonflyLibvips::Dimensions.call(geometry, img.width, img.height)
-        else raise ArgumentError, "Didn't recognise the geometry string #{geometry}"
+        if input_options = options.fetch('input_options', nil)
+          input_args = input_options.map{ |k,v| "#{k}=#{v}" }.join(',')
+          input_args = "[#{input_args}]"
         end
 
-        thumbnail_options['height'] ||= dimensions.height.ceil
-
-        thumbnail_options['size'] ||= case geometry
-        when />\z/ then Vips::Size::DOWN # do_not_resize_if_image_smaller_than_requested
-        when /<\z/ then Vips::Size::UP # do_not_resize_if_image_larger_than_requested
-        else Vips::Size::BOTH
+        if output_options = options.fetch('output_options', nil)
+          output_args = output_options.map{ |k,v| "#{k}=#{v}" }.join(',')
+          output_args = "[#{output_args}]"
         end
 
-        thumb = ::Vips::Image.thumbnail(content.path, dimensions.width.ceil, thumbnail_options)
+        args = options.fetch('args', '')
+        unless args.include?('eprofile')
+          args = [args, "--eprofile=#{DragonflyLibvips::EPROFILE_PATH}"].compact.join(' ')
+        end
 
-        content.update(thumb.write_to_buffer(".#{format}", output_options), 'format' => format)
-        content.ext = format
+        # vipsthumbnail does not correctly handle 'NNx' definition
+        if geometry_incomplete?(geometry)
+          img = ::Vips::Image.new_from_file(content.path)
+          dimensions =  DragonflyLibvips::Dimensions.call(geometry, img.width, img.height)
+          geometry = ["#{dimensions.width.to_i}x#{dimensions.height.to_i}", dimensions.modifier].reject(&:blank?).join
+        end
+
+        args = [args, "--size=#{geometry}"].compact.join(' ')
+
+        content.shell_update ext: format do |old_path, new_path|
+          "#{vipsthumbnail_command} #{old_path}#{input_args} -o #{new_path}#{output_args} #{args}"
+        end
+
+        if format
+          content.meta['format'] = format.to_s
+          content.ext = format
+        end
       end
 
-      def update_url(url_attributes, _, options = {})
+      def update_url(url_attributes, geometry, options = {})
         options = options.deep_stringify_keys
 
         if format = options.fetch('format', nil)
           url_attributes.ext = format
         end
+      end
+
+      private
+
+      def geometry_incomplete?(geometry)
+        w, h = geometry.scan(/\A(\d*)x(\d*)/).flatten.map(&:to_f)
+        return true if w == 0
+        return true if h == 0
       end
     end
   end

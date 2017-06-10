@@ -6,7 +6,7 @@ module DragonflyLibvips
 
     def call
       return OpenStruct.new(width: orig_w, height: orig_h, scale: 1) if do_not_resize_if_image_smaller_than_requested? || do_not_resize_if_image_larger_than_requested?
-      OpenStruct.new(width: width, height: height, scale: scale)
+      OpenStruct.new(width: width, height: height, scale: scale, modifier: modifier)
     end
 
     private
@@ -54,6 +54,11 @@ module DragonflyLibvips
 
     def portrait?
       !landscape?
+    end
+
+    def modifier
+      return '>' if do_not_resize_if_image_smaller_than_requested?
+      return '<' if do_not_resize_if_image_larger_than_requested?
     end
 
     def do_not_resize_if_image_smaller_than_requested?
