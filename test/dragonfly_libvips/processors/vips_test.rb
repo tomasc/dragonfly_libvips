@@ -16,20 +16,20 @@ describe DragonflyLibvips::Processors::Vips do
     processor.call(image, 'resize', '0.5', 'format' => 'jpg')
     image.must_have_width 140
     image.must_have_height 178
-    image.must_have_format 'jpg'
+    image.must_have_format 'jpeg'
     image.meta['format'].must_equal 'jpg'
   end
 
   it 'allows for general vips commands with added :input_args' do
     processor.call(pdf, 'copy', '', 'format' => 'jpg', 'input_args' => { page: 0 })
-    pdf.must_have_format 'jpg'
+    pdf.must_have_format 'jpeg'
     pdf.meta['format'].must_equal 'jpg'
   end
 
   it 'allows for general vips commands with added :output_args' do
     processor.call(image, 'resize', '0.5', 'format' => 'jpg', 'output_args' => { Q: 10 })
     image.must_have_width 140
-    image.must_have_format 'jpg'
+    image.must_have_format 'jpeg'
     image.meta['format'].must_equal 'jpg'
   end
 

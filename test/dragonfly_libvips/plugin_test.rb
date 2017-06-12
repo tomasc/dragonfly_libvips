@@ -19,14 +19,6 @@ module DragonflyLibvips
         image.aspect_ratio.must_equal (280.0 / 355.0)
       end
 
-      it 'returns the xres' do
-        image.xres.must_equal 72.0
-      end
-
-      it 'returns the yres' do
-        image.yres.must_equal 72.0
-      end
-
       it "says if it's portrait" do
         image.portrait?.must_equal true
         image.portrait.must_equal true # for use with magic attributes
@@ -44,10 +36,6 @@ module DragonflyLibvips
       it "says if it's an image" do
         image.image?.must_equal true
         image.image.must_equal true # for use with magic attributes
-      end
-
-      it "says if it's not an image" do
-        app.create('blah').image?.must_equal false
       end
     end
 
@@ -88,12 +76,12 @@ module DragonflyLibvips
       describe 'encode' do
         it 'encodes the image to the correct format' do
           image.encode!('jpg')
-          image.format.must_equal 'jpg'
+          image.format.must_equal 'jpeg'
         end
 
         it 'allows for extra args' do
           image.encode!('jpg', output_options: { Q: 1 })
-          image.format.must_equal 'jpg'
+          image.format.must_equal 'jpeg'
           image.size.must_be :<, 65_000
         end
       end

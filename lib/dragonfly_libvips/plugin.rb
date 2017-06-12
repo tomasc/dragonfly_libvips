@@ -7,6 +7,7 @@ module DragonflyLibvips
   class Plugin
     def call(app, options = {})
       app.env[:vips_command] = options[:vips_command] || 'vips'
+      app.env[:vipsheader_command] = options[:vipsheader_command] || 'vipsheader'
       app.env[:vipsthumbnail_command] = options[:vipsthumbnail_command] || 'vipsthumbnail'
 
       # Analysers
@@ -18,14 +19,6 @@ module DragonflyLibvips
 
       app.add_analyser :height do |content|
         content.analyse(:image_properties)['height']
-      end
-
-      app.add_analyser :xres do |content|
-        content.analyse(:image_properties)['xres']
-      end
-
-      app.add_analyser :yres do |content|
-        content.analyse(:image_properties)['yres']
       end
 
       app.add_analyser :format do |content|
@@ -66,6 +59,14 @@ module DragonflyLibvips
       end
       app.add_processor :thumb, Processors::Thumb.new
       app.add_processor :vips, Processors::Vips.new
+
+      # Extra methods
+      app.define :vipsheader do |*args|
+        cli_args = args.first # because ruby 1.8.7 can't deal with default args in blocks
+        shell_eval do |path|
+          "#{app.env[:vipsheader_command]} #{cli_args} #{path}"
+        end
+      end
     end
   end
 end

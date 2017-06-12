@@ -1,5 +1,4 @@
 require 'active_support/core_ext/hash'
-require 'vips'
 
 module DragonflyLibvips
   module Processors

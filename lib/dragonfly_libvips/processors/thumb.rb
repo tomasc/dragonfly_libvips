@@ -1,7 +1,6 @@
 require 'active_support/core_ext/hash'
 require 'dragonfly/utils'
 require 'dragonfly_libvips/dimensions'
-require 'vips'
 
 module DragonflyLibvips
   module Processors
@@ -34,8 +33,8 @@ module DragonflyLibvips
 
         # vipsthumbnail does not correctly handle 'NNx' definition
         if geometry_incomplete?(geometry)
-          img = ::Vips::Image.new_from_file(content.path)
-          dimensions =  DragonflyLibvips::Dimensions.call(geometry, img.width, img.height)
+          image_properties = content.analyse(:image_properties)
+          dimensions =  DragonflyLibvips::Dimensions.call(geometry, image_properties['width'], image_properties['height'])
           geometry = ["#{dimensions.width.to_i}x#{dimensions.height.to_i}", dimensions.modifier].reject(&:blank?).join
         end
 
