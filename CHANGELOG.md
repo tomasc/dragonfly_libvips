@@ -1,8 +1,8 @@
 # CHANGELOG
 
-## 1.1.0
+## Unreleased
 
-* updated processor to take benefit of the new `thumbnail` method (requires `vips 8.5.6`)
+* updated processor to take benefit of the new `thumbnail` method (requires `vips 8.5.6`) – waiting for `ruby-vips` to support `:dpi` and `:page` as options for `.thumbnail`
 
 ## 1.0.4
 
