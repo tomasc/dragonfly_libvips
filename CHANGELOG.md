@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.0
+
+* `ruby-vips` updated to `~> 2.0`
+
 ## 1.0.4
 
 * `vips` is required closer to when the classes are called, in hope of fixing [#107](https://github.com/jcupitt/ruby-vips/issues/107)
