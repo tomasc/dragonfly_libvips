@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.0.1
+
+* `ruby-vips` updated to `>= 2.0.1`
+* added `autorotate` support, based on `orientation` value from EXIF tags (JPEG only)
+
 ## 2.0.0
 
 * `ruby-vips` updated to `~> 2.0`
