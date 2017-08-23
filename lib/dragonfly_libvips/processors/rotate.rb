@@ -12,6 +12,9 @@ module DragonflyLibvips
         output_options = options.fetch('output_options', {})
 
         input_options['access'] ||= 'sequential'
+        if content.mime_type == 'image/jpeg'
+          input_options['autorotate'] = true unless input_options.has_key?('autorotate')
+        end
         output_options['profile'] ||= DragonflyLibvips::EPROFILE_PATH
 
         require 'vips'

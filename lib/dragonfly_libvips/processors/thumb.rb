@@ -1,5 +1,6 @@
 require 'active_support/core_ext/hash'
 require 'dragonfly_libvips/dimensions'
+require 'vips'
 
 module DragonflyLibvips
   module Processors
@@ -18,13 +19,15 @@ module DragonflyLibvips
         output_options = options.fetch('output_options', {})
 
         input_options['access'] ||= 'sequential'
+        if content.mime_type == 'image/jpeg'
+          input_options['autorotate'] = true unless input_options.has_key?('autorotate')
+        end
         output_options['profile'] ||= DragonflyLibvips::EPROFILE_PATH
 
-        require 'vips'
         img = ::Vips::Image.new_from_file(content.path, input_options)
 
         dimensions = case geometry
-                     when RESIZE_GEOMETRY then DragonflyLibvips::Dimensions.call(geometry, img.width, img.height)
+        when RESIZE_GEOMETRY then DragonflyLibvips::Dimensions.call(geometry, img.width, img.height)
                      else raise ArgumentError, "Didn't recognise the geometry string #{geometry}"
         end
 

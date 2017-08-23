@@ -3,14 +3,22 @@ module DragonflyLibvips
     class ImageProperties
       def call(content)
         require 'vips'
-        img = ::Vips::Image.new_from_file(content.path, access: :sequential)
+
+        input_options = {}
+        input_options[:access] = :sequential
+        input_options[:autorotate] = true if content.mime_type == 'image/jpeg'
+
+        img = ::Vips::Image.new_from_file(content.path, input_options)
+
+        width, height = img.width, img.height
+        xres, yres = img.xres, img.yres
 
         {
           'format' => content.ext,
-          'width' => img.width,
-          'height' => img.height,
-          'xres' => img.xres,
-          'yres' => img.yres
+          'width' => width,
+          'height' => height,
+          'xres' => xres,
+          'yres' => yres
         }
       end
     end
