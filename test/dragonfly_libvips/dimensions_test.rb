@@ -1,15 +1,15 @@
 require 'test_helper'
 
 describe DragonflyLibvips::Dimensions do
-  let(:dimensions) { '' }
+  let(:geometry) { '' }
   let(:orig_w) { nil }
   let(:orig_h) { nil }
-  let(:result) { DragonflyLibvips::Dimensions.call(dimensions, orig_w, orig_h) }
+  let(:result) { DragonflyLibvips::Dimensions.call(geometry, orig_w, orig_h) }
 
   # ---------------------------------------------------------------------
 
   describe 'NNxNN' do
-    let(:dimensions) { '250x250' }
+    let(:geometry) { '250x250' }
 
     describe 'when square' do
       let(:orig_w) { 1000 }
@@ -20,7 +20,7 @@ describe DragonflyLibvips::Dimensions do
       it { result.scale.must_equal 250.0 / orig_w }
 
       describe '250x250>' do
-        let(:dimensions) { '250x250>' }
+        let(:geometry) { '250x250>' }
 
         describe 'when image larger than specified' do
           it 'resize' do
@@ -42,7 +42,7 @@ describe DragonflyLibvips::Dimensions do
       end
 
       describe '250x50<' do
-        let(:dimensions) { '250x250<' }
+        let(:geometry) { '250x250<' }
 
         describe 'when image larger than specified' do
           it 'do not resize' do
@@ -87,7 +87,7 @@ describe DragonflyLibvips::Dimensions do
   # ---------------------------------------------------------------------
 
   describe 'NNx' do
-    let(:dimensions) { '250x' }
+    let(:geometry) { '250x' }
 
     describe 'when square' do
       let(:orig_w) { 1000 }
@@ -120,7 +120,7 @@ describe DragonflyLibvips::Dimensions do
   # ---------------------------------------------------------------------
 
   describe 'xNN' do
-    let(:dimensions) { 'x250' }
+    let(:geometry) { 'x250' }
 
     describe 'when square' do
       let(:orig_w) { 1000 }
