@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.0
+
+* `thumb` process refactored for `Vips::Image.thumbnail`, with faster performance
+
 ## 2.0.1
 
 * `ruby-vips` updated to `>= 2.0.1`
