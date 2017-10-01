@@ -62,6 +62,20 @@ describe DragonflyLibvips::Processors::Thumb do
     end
   end
 
+  describe 'pdf' do
+    it "resizes PDF" do
+      processor.call(pdf, '500x500', format: 'jpg')
+      pdf.must_have_width 387
+      pdf.must_have_height 500
+    end
+
+    it "accepts page param" do
+      processor.call(pdf, '500x500', format: 'jpg', input_options: { page: 0 })
+      pdf.must_have_width 387
+      pdf.must_have_height 500
+    end
+  end
+
   describe 'format' do
     let(:url_attributes) { OpenStruct.new }
 
