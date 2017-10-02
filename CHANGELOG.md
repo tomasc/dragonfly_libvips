@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.1
+
+* add `CMYK` support using the `cmyk.icm` profile
+
 ## 2.1.0
 
 * `thumb` process refactored for `Vips::Image.thumbnail`, with faster performance

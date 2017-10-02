@@ -5,6 +5,7 @@ describe DragonflyLibvips::Processors::Thumb do
   let(:app) { test_libvips_app }
   let(:image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('beach.png')) } # 280x355
   let(:pdf) { Dragonfly::Content.new(app, SAMPLES_DIR.join('memo.pdf')) }
+  let(:cmyk) { Dragonfly::Content.new(app, SAMPLES_DIR.join('cmyk.jpg')) }
   let(:landscape_image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('landscape_beach.png')) } # 355x280
   let(:processor) { DragonflyLibvips::Processors::Thumb.new }
 
@@ -12,6 +13,11 @@ describe DragonflyLibvips::Processors::Thumb do
     assert_raises(ArgumentError) do
       processor.call(image, '30x40#ne!')
     end
+  end
+
+  it "can handle cmyk images" do
+    processor.call(cmyk, '30x')
+    cmyk.must_have_width 30
   end
 
   describe 'resizing' do

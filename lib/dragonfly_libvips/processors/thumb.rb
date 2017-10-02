@@ -40,6 +40,7 @@ module DragonflyLibvips
         thumbnail_options = options.fetch(:thumbnail_options, {})
         thumbnail_options[:auto_rotate] = input_options.fetch(:autorotate, true) if content.mime_type == 'image/jpeg'
         thumbnail_options[:height] = thumbnail_options.fetch(:height, dimensions.height.ceil)
+        thumbnail_options[:import_profile] = DragonflyLibvips::CMYK_PROFILE_PATH if img.get('interpretation') == :cmyk
         thumbnail_options[:size] ||= case geometry
                                      when />\z/ then :down # do_not_resize_if_image_smaller_than_requested
                                      when /<\z/ then :up # do_not_resize_if_image_larger_than_requested
