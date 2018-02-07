@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.2
+
+* changed image properties analyser to downcase the image's format
+
 ## 2.1.1
 
 * add `CMYK` support using the `cmyk.icm` profile
