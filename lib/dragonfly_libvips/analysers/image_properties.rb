@@ -17,7 +17,7 @@ module DragonflyLibvips
         xres, yres = img.xres, img.yres
 
         {
-          'format' => content.ext,
+          'format' => content.ext.downcase,
           'width' => width,
           'height' => height,
           'xres' => xres,
