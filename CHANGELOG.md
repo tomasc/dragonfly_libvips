@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.3
+
+* make sure the downcase analyser survives nil
+
 ## 2.1.2
 
 * changed image properties analyser to downcase the image's format
