@@ -46,9 +46,17 @@ Dragonfly.app.configure do
 end
 ```
 
-### Processors
+## Supported Formats
 
-#### Thumb
+List of supported formats (based on your build and version of the `libvips` library) is available as:
+
+```ruby
+DragonflyLibvips::SUPPORTED_FORMATS # => ["csv", "dz", "gif", …]
+```
+
+## Processors
+
+### Thumb
 
 Create a thumbnail by resizing/cropping
 
@@ -66,7 +74,7 @@ Below are some examples of geometry strings for `thumb`:
 '400x300>' # resize only if the image is larger than this
 ```
 
-#### Encode
+### Encode
 
 Change the encoding with
 
@@ -80,7 +88,7 @@ optionally pass output arguments (specific to format)
 image.encode('jpg')
 ```
 
-#### Rotate
+### Rotate
 
 Rotate a number of degrees with
 
@@ -88,7 +96,7 @@ Rotate a number of degrees with
 image.rotate(90)
 ```
 
-#### Options
+### Options
 
 All processors support `input_options` and `output_options` for passing additional options to vips. For example:
 
@@ -104,7 +112,7 @@ input_options: { access: :sequential }
 output_options: { profile: … } # embeds 'sRGB_v4_ICC_preference.icc' profile included with this gem
 ```
 
-### Analysers
+## Analysers
 
 The following methods are provided
 

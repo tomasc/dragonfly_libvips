@@ -4,14 +4,15 @@ module DragonflyLibvips
   module Processors
     class Rotate
       def call(content, rotate, options = {})
+        raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext)
+        
         options = options.deep_stringify_keys
-
         format = options.fetch('format', content.ext)
 
         input_options = options.fetch('input_options', {})
         output_options = options.fetch('output_options', {})
 
-        input_options['access'] ||= 'sequential'
+        # input_options['access'] ||= 'sequential'
         if content.mime_type == 'image/jpeg'
           input_options['autorotate'] = true unless input_options.has_key?('autorotate')
         end

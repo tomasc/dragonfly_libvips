@@ -4,6 +4,8 @@ module DragonflyLibvips
   module Processors
     class Encode
       def call(content, format, options = {})
+        raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext)
+        
         options = options.deep_stringify_keys
 
         input_options = options.fetch('input_options', {})

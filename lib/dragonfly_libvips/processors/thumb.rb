@@ -10,6 +10,8 @@ module DragonflyLibvips
       DPI = 300
 
       def call(content, geometry, options = {})
+        raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext)
+        
         options = options.deep_symbolize_keys
 
         filename = content.path
