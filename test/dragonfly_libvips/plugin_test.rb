@@ -33,7 +33,6 @@ module DragonflyLibvips
 
         it { thumb.url.must_match(/^\/beach\.png\?.*job=\w+/) }
         it { thumb.format.must_equal 'png' }
-        it { thumb.meta['format'].must_equal 'png' }
       end
 
       describe 'rotate' do
