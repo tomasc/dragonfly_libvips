@@ -1,12 +1,10 @@
-require 'active_support/core_ext/hash'
-
 module DragonflyLibvips
   module Processors
     class Encode
       def call(content, format, options = {})
         raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext)
-        
-        options = options.deep_stringify_keys
+
+        options = options.each_with_object({}) { |(k, v), memo| memo[k.to_s] = v } # stringify keys
 
         input_options = options.fetch('input_options', {})
         output_options = options.fetch('output_options', {})
@@ -15,7 +13,7 @@ module DragonflyLibvips
         if content.mime_type == 'image/jpeg'
           input_options['autorotate'] = true unless input_options.has_key?('autorotate')
         end
-        output_options['profile'] ||= DragonflyLibvips::EPROFILE_PATH
+        output_options['profile'] ||= EPROFILE_PATH
 
         require 'vips'
         img = ::Vips::Image.new_from_file(content.path, input_options)

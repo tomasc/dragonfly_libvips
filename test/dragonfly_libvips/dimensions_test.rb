@@ -6,8 +6,6 @@ describe DragonflyLibvips::Dimensions do
   let(:orig_h) { nil }
   let(:result) { DragonflyLibvips::Dimensions.call(geometry, orig_w, orig_h) }
 
-  # ---------------------------------------------------------------------
-
   describe 'NNxNN' do
     let(:geometry) { '250x250' }
 
@@ -84,8 +82,6 @@ describe DragonflyLibvips::Dimensions do
     end
   end
 
-  # ---------------------------------------------------------------------
-
   describe 'NNx' do
     let(:geometry) { '250x' }
 
@@ -116,8 +112,6 @@ describe DragonflyLibvips::Dimensions do
       it { result.scale.must_equal 250.0 / orig_w }
     end
   end
-
-  # ---------------------------------------------------------------------
 
   describe 'xNN' do
     let(:geometry) { 'x250' }

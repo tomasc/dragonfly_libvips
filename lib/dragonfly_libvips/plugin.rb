@@ -9,43 +9,22 @@ module DragonflyLibvips
       # Analysers
       app.add_analyser :image_properties, DragonflyLibvips::Analysers::ImageProperties.new
 
-      app.add_analyser :width do |content|
-        content.analyse(:image_properties)['width']
+      %w[ width
+          height
+          xres
+          yres
+          format
+      ].each do |name|
+        app.add_analyser(name) { |c| c.analyse(:image_properties)[name] }
       end
 
-      app.add_analyser :height do |content|
-        content.analyse(:image_properties)['height']
-      end
+      app.add_analyser(:aspect_ratio) { |c| c.analyse(:width).to_f / c.analyse(:height).to_f }
+      app.add_analyser(:portrait) { |c| c.analyse(:aspect_ratio) < 1.0 }
+      app.add_analyser(:landscape) { |c| !c.analyse(:portrait) }
 
-      app.add_analyser :xres do |content|
-        content.analyse(:image_properties)['xres']
-      end
-
-      app.add_analyser :yres do |content|
-        content.analyse(:image_properties)['yres']
-      end
-
-      app.add_analyser :format do |content|
-        content.analyse(:image_properties)['format']
-      end
-
-      app.add_analyser :aspect_ratio do |content|
-        attrs = content.analyse(:image_properties)
-        attrs['width'].to_f / attrs['height']
-      end
-
-      app.add_analyser :portrait do |content|
-        attrs = content.analyse(:image_properties)
-        attrs['width'] <= attrs['height']
-      end
-
-      app.add_analyser :landscape do |content|
-        !content.analyse(:portrait)
-      end
-
-      app.add_analyser :image do |content|
+      app.add_analyser(:image) do |c|
         begin
-          content.analyse(:image_properties).key?('format')
+          c.analyse(:image_properties).key?('format')
         rescue ::Vips::Error
           false
         end

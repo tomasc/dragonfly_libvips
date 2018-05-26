@@ -15,95 +15,95 @@ describe DragonflyLibvips::Processors::Thumb do
     end
   end
 
-  it "can handle cmyk images" do
-    processor.call(cmyk, '30x')
-    cmyk.must_have_width 30
+  describe 'cmyk images' do
+    before { processor.call(cmyk, '30x') }
+    it { cmyk.must_have_width 30 }
   end
 
   describe 'resizing' do
-    it 'works with xNN' do
-      processor.call(landscape_image, 'x30')
-      landscape_image.must_have_width 38
-      landscape_image.must_have_height 30
+    describe 'xNN' do
+      before { processor.call(landscape_image, 'x30') }
+      it { landscape_image.must_have_width 38 }
+      it { landscape_image.must_have_height 30 }
     end
 
-    it 'works with NNx' do
-      processor.call(image, '30x')
-      image.must_have_width 30
-      image.must_have_height 38
+    describe 'NNx' do
+      before { processor.call(image, '30x') }
+      it { image.must_have_width 30 }
+      it { image.must_have_height 38 }
     end
 
-    it 'works with NNxNN' do
-      processor.call(image, '30x30')
-      image.must_have_width 24
-      image.must_have_height 30
+    describe 'NNxNN' do
+      before { processor.call(image, '30x30') }
+      it { image.must_have_width 24 }
+      it { image.must_have_height 30 }
     end
 
     describe 'NNxNN>' do
-      it "doesn't resize if the image is smaller than specified" do
-        processor.call(image, '1000x1000>')
-        image.must_have_width 280
-        image.must_have_height 355
+      describe 'if the image is smaller than specified' do
+        before { processor.call(image, '1000x1000>') }
+        it { image.must_have_width 280 }
+        it { image.must_have_height 355 }
       end
 
-      it 'resizes if the image is larger than specified' do
-        processor.call(image, '30x30>')
-        image.must_have_width 24
-        image.must_have_height 30
+      describe 'if the image is larger than specified' do
+        before { processor.call(image, '30x30>') }
+        it { image.must_have_width 24 }
+        it { image.must_have_height 30 }
       end
     end
 
     describe 'NNxNN<' do
-      it "doesn't resize if the image is larger than specified" do
-        processor.call(image, '10x10<')
-        image.must_have_width 280
-        image.must_have_height 355
+      describe 'if the image is larger than specified' do
+        before { processor.call(image, '10x10<') }
+        it { image.must_have_width 280 }
+        it { image.must_have_height 355 }
       end
 
-      it 'resizes if the image is smaller than specified' do
-        processor.call(image, '500x500<')
-        image.must_have_width 394
-        image.must_have_height 500
+      describe 'if the image is smaller than specified' do
+        before { processor.call(image, '500x500<') }
+        it { image.must_have_width 394 }
+        it { image.must_have_height 500 }
       end
     end
   end
 
   describe 'pdf' do
-    it "resizes PDF" do
-      processor.call(pdf, '500x500', format: 'jpg')
-      pdf.must_have_width 387
-      pdf.must_have_height 500
+    describe 'resize' do
+      before { processor.call(pdf, '500x500', format: 'jpg') }
+      it { pdf.must_have_width 387 }
+      it { pdf.must_have_height 500 }
     end
 
-    it "accepts page param" do
-      processor.call(pdf, '500x500', format: 'jpg', input_options: { page: 0 })
-      pdf.must_have_width 387
-      pdf.must_have_height 500
+    describe 'page param' do
+      before { processor.call(pdf, '500x500', format: 'jpg', input_options: { page: 0 }) }
+      it { pdf.must_have_width 387 }
+      it { pdf.must_have_height 500 }
     end
   end
 
   describe 'format' do
     let(:url_attributes) { OpenStruct.new }
 
-    it 'changes the format if passed in' do
-      processor.call(image, '2x2', format: 'jpeg', output_options: { Q: 50 })
-      image.ext.must_equal 'jpeg'
-      image.size.must_be :<, 65_000
+    describe 'when format passed in' do
+      before { processor.call(image, '2x2', format: 'jpeg', output_options: { Q: 50 }) }
+      it { image.ext.must_equal 'jpeg' }
+      it { image.size.must_be :<, 65_000 }
     end
 
-    it "doesn't change the format if not passed in" do
-      processor.call(image, '2x2')
-      image.ext.must_equal 'png'
+    describe 'when format not passed in' do
+      before { processor.call(image, '2x2') }
+      it { image.ext.must_equal 'png' }
     end
 
-    it 'updates the url ext if passed in' do
-      processor.update_url(url_attributes, '2x2', 'format' => 'png')
-      url_attributes.ext.must_equal 'png'
+    describe 'when ext passed in' do
+      before { processor.update_url(url_attributes, '2x2', 'format' => 'png') }
+      it { url_attributes.ext.must_equal 'png' }
     end
 
-    it "doesn't update the url ext if not passed in" do
-      processor.update_url(url_attributes, '2x2')
-      url_attributes.ext.must_be_nil
+    describe 'when ext not passed in' do
+      before { processor.update_url(url_attributes, '2x2') }
+      it { url_attributes.ext.must_be_nil }
     end
   end
 end

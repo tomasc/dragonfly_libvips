@@ -4,106 +4,65 @@ require 'openssl'
 module DragonflyLibvips
   describe Plugin do
     let(:app) { test_app.configure_with(:libvips) }
-    let(:image) { app.fetch_file(SAMPLES_DIR.join('beach.png')) }
+    let(:content) { app.fetch_file(SAMPLES_DIR.join('beach.png')) }
 
     describe 'analysers' do
-      it 'returns the width' do
-        image.width.must_equal 280
-      end
+      it { content.width.must_equal 280 }
+      it { content.height.must_equal 355 }
+      it { content.aspect_ratio.must_equal (280.0 / 355.0) }
+      it { content.xres.must_equal 72.0 }
+      it { content.yres.must_equal 72.0 }
 
-      it 'returns the height' do
-        image.height.must_equal 355
-      end
+      it { content.must_be :portrait? }
+      it { content.portrait.must_equal true } # for use with magic attributes
+      it { content.wont_be :landscape? }
+      it { content.landscape.must_equal false } # for use with magic attributes
 
-      it 'returns the aspect ratio' do
-        image.aspect_ratio.must_equal (280.0 / 355.0)
-      end
+      it { content.format.must_equal 'png' }
 
-      it 'returns the xres' do
-        image.xres.must_equal 72.0
-      end
-
-      it 'returns the yres' do
-        image.yres.must_equal 72.0
-      end
-
-      it "says if it's portrait" do
-        image.portrait?.must_equal true
-        image.portrait.must_equal true # for use with magic attributes
-      end
-
-      it "says if it's landscape" do
-        image.landscape?.must_equal false
-        image.landscape.must_equal false # for use with magic attributes
-      end
-
-      it 'returns the format' do
-        image.format.must_equal 'png'
-      end
-
-      it "says if it's an image" do
-        image.image?.must_equal true
-        image.image.must_equal true # for use with magic attributes
-      end
-
-      it "says if it's not an image" do
-        app.create('blah').image?.must_equal false
-      end
+      it { content.must_be :image? }
+      it { content.image.must_equal true } # for use with magic attributes
+      it { app.create('blah').wont_be :image? }
     end
 
     describe 'processors that change the url' do
-      before do
-        app.configure { url_format '/:name' }
-      end
+      before { app.configure { url_format '/:name' } }
 
       describe 'encode' do
-        it 'sanity check' do
-          thumb = image.encode('png')
-          thumb.url.must_match(/^\/beach\.png\?.*job=\w+/)
-          thumb.format.must_equal 'png'
-          thumb.meta['format'].must_equal 'png'
-        end
+        let(:thumb) { content.encode('png') }
+
+        it { thumb.url.must_match(/^\/beach\.png\?.*job=\w+/) }
+        it { thumb.format.must_equal 'png' }
+        it { thumb.meta['format'].must_equal 'png' }
       end
 
       describe 'rotate' do
-        it 'sanity check' do
-          thumb = image.rotate(90, format: 'png')
-          thumb.url.must_match(/^\/beach\.png\?.*job=\w+/)
-          thumb.format.must_equal 'png'
-          thumb.meta['format'].must_equal 'png'
-        end
+        let(:thumb) { content.rotate(90, format: 'png') }
+
+        it { thumb.url.must_match(/^\/beach\.png\?.*job=\w+/) }
+        it { thumb.format.must_equal 'png' }
+        it { thumb.meta['format'].must_equal 'png' }
       end
 
       describe 'thumb' do
-        it 'sanity check' do
-          thumb = image.thumb('100x', format: 'png')
-          thumb.url.must_match(/^\/beach\.png\?.*job=\w+/)
-          thumb.format.must_equal 'png'
-          thumb.meta['format'].must_equal 'png'
-        end
+        let(:thumb) { content.thumb('100x', format: 'png') }
+
+        it { thumb.url.must_match(/^\/beach\.png\?.*job=\w+/) }
+        it { thumb.format.must_equal 'png' }
+        it { thumb.meta['format'].must_equal 'png' }
       end
     end
 
     describe 'other processors' do
       describe 'encode' do
-        it 'encodes the image to the correct format' do
-          image.encode!('jpg')
-          image.format.must_equal 'jpg'
-        end
-
-        it 'allows for extra args' do
-          image.encode!('jpg', output_options: { Q: 1 })
-          image.format.must_equal 'jpg'
-          image.size.must_be :<, 65_000
-        end
+        it { content.encode('jpg').format.must_equal 'jpg' }
+        it { content.encode('jpg', output_options: { Q: 1 }).format.must_equal 'jpg' }
+        it { content.encode('jpg', output_options: { Q: 1 }).size.must_be :<, 65_000 }
       end
 
       describe 'rotate' do
-        it 'should rotate by 90 degrees' do
-          image.rotate!(90)
-          image.width.must_equal 355
-          image.height.must_equal 280
-        end
+        it { content.rotate(90).width.must_equal 355 }
+        it { content.rotate(90).height.must_equal 280 }
       end
     end
   end
