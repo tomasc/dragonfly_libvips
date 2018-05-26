@@ -3,7 +3,14 @@ module DragonflyLibvips
     class Encode
       def call(content, format, options = {})
         raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext)
-        return if content.mime_type == Rack::Mime.mime_type(".#{format.to_s}")
+
+        format = format.to_s
+
+        if content.mime_type == Rack::Mime.mime_type(".#{format}")
+          content.ext ||= format
+          content.meta['format'] = format
+          return
+        end
 
         options = options.each_with_object({}) { |(k, v), memo| memo[k.to_s] = v } # stringify keys
 
