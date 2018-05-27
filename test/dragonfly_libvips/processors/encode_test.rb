@@ -13,23 +13,13 @@ describe DragonflyLibvips::Processors::Encode do
       end
 
       let(:content) { app.fetch_file SAMPLES_DIR.join("sample.#{format}") }
-      it(format) do
-        result = content.encode('jpg')
-        content.encode('jpg').ext.must_equal 'jpg'
-        content.encode('jpg').mime_type.must_equal 'image/jpeg'
-        content.encode('jpg').size.must_be :>, 0
-      end
-    end
-  end
 
-  describe 'SUPPORTED_OUTPUT_FORMATS' do
-    DragonflyLibvips::SUPPORTED_OUTPUT_FORMATS.each do |format|
-      let(:content) { app.fetch_file SAMPLES_DIR.join("sample.png") }
-      it(format) do
-        result = content.encode(format)
-        result.ext.must_equal format
-        result.mime_type.must_equal Rack::Mime.mime_type(".#{format}")
-        result.size.must_be :>, 0
+      DragonflyLibvips::SUPPORTED_OUTPUT_FORMATS.each do |output_format|
+        it("#{format} to #{output_format}") do
+          result = content.encode(output_format)
+          content.encode(output_format).mime_type.must_equal Rack::Mime.mime_type(".#{output_format}")
+          content.encode(output_format).size.must_be :>, 0
+        end
       end
     end
   end
