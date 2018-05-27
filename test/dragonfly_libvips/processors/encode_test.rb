@@ -6,7 +6,11 @@ describe DragonflyLibvips::Processors::Encode do
   let(:processor) { DragonflyLibvips::Processors::Encode.new }
 
   DragonflyLibvips::SUPPORTED_FORMATS.each do |format|
-    next unless File.exists?(SAMPLES_DIR.join("sample.#{format}"))
+    unless File.exists?(SAMPLES_DIR.join("sample.#{format}"))
+      it(format) { skip "sample.#{format} does not exist, skipping" }
+      next
+    end
+
     describe format.to_s do
       let(:content) { app.fetch_file SAMPLES_DIR.join("sample.#{format}") }
       let(:result) { content.encode('jpg') }

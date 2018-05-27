@@ -1,5 +1,5 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'dragonfly_libvips/version'
 
@@ -25,5 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'guard'
   spec.add_development_dependency 'guard-minitest'
   spec.add_development_dependency 'minitest', '~> 5.0'
+  spec.add_development_dependency 'minitest-reporters'
   spec.add_development_dependency 'rake', '~> 10.0'
 end
