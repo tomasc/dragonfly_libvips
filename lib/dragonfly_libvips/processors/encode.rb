@@ -8,6 +8,8 @@ module DragonflyLibvips
 
         format = format.to_s
 
+        raise UnsupportedOutputFormat unless SUPPORTED_OUTPUT_FORMATS.include?(format)
+
         if content.mime_type == Rack::Mime.mime_type(".#{format}")
           content.ext ||= format
           content.meta['format'] = format
