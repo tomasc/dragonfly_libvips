@@ -5,7 +5,7 @@ describe DragonflyLibvips::Processors::Thumb do
   let(:app) { test_libvips_app }
   let(:image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.png')) } # 280x355
   let(:pdf) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.pdf')) }
-  let(:cmyk) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.jpg')) }
+  let(:cmyk) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample_cmyk.jpg')) }
   let(:landscape_image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('landscape_sample.png')) } # 355x280
   let(:processor) { DragonflyLibvips::Processors::Thumb.new }
 
