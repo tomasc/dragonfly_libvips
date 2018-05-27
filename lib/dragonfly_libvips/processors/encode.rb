@@ -7,6 +7,8 @@ module DragonflyLibvips
         raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext)
 
         format = format.to_s
+        format = 'tif' if format == 'tiff'
+        format = 'jpg' if format == 'jpeg'
 
         raise UnsupportedOutputFormat unless SUPPORTED_OUTPUT_FORMATS.include?(format)
 
