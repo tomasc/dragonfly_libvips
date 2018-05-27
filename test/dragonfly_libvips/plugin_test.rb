@@ -4,7 +4,7 @@ require 'openssl'
 module DragonflyLibvips
   describe Plugin do
     let(:app) { test_app.configure_with(:libvips) }
-    let(:content) { app.fetch_file(SAMPLES_DIR.join('beach.png')) }
+    let(:content) { app.fetch_file(SAMPLES_DIR.join('sample.png')) }
 
     describe 'analysers' do
       it { content.width.must_equal 280 }
@@ -31,7 +31,7 @@ module DragonflyLibvips
       describe 'encode' do
         let(:thumb) { content.encode('png') }
 
-        it { thumb.url.must_match(/^\/beach\.png\?.*job=\w+/) }
+        it { thumb.url.must_match(/^\/sample\.png\?.*job=\w+/) }
         it { thumb.format.must_equal 'png' }
         it { thumb.meta['format'].must_equal 'png' }
       end
@@ -39,7 +39,7 @@ module DragonflyLibvips
       describe 'rotate' do
         let(:thumb) { content.rotate(90, format: 'png') }
 
-        it { thumb.url.must_match(/^\/beach\.png\?.*job=\w+/) }
+        it { thumb.url.must_match(/^\/sample\.png\?.*job=\w+/) }
         it { thumb.format.must_equal 'png' }
         it { thumb.meta['format'].must_equal 'png' }
       end
@@ -47,7 +47,7 @@ module DragonflyLibvips
       describe 'thumb' do
         let(:thumb) { content.thumb('100x', format: 'png') }
 
-        it { thumb.url.must_match(/^\/beach\.png\?.*job=\w+/) }
+        it { thumb.url.must_match(/^\/sample\.png\?.*job=\w+/) }
         it { thumb.format.must_equal 'png' }
         it { thumb.meta['format'].must_equal 'png' }
       end

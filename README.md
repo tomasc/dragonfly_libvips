@@ -52,6 +52,7 @@ List of supported formats (based on your build and version of the `libvips` libr
 
 ```ruby
 DragonflyLibvips::SUPPORTED_FORMATS # => ["csv", "dz", "gif", …]
+DragonflyLibvips::SUPPORTED_OUTPUT_FORMATS # => ["csv", "dz", "gif", …]
 ```
 
 ## Processors

@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe DragonflyLibvips::Processors::Rotate do
   let(:app) { test_libvips_app }
-  let(:content) { Dragonfly::Content.new(app, SAMPLES_DIR.join('beach.png')) } # 280x355
+  let(:content) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.png')) } # 280x355
   let(:processor) { DragonflyLibvips::Processors::Rotate.new }
 
   describe 'rotate 90' do

@@ -2,22 +2,32 @@ require 'test_helper'
 
 describe DragonflyLibvips::Processors::Encode do
   let(:app) { test_libvips_app }
-  let(:content_image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('beach.png')) } # 280x355
-  let(:content_pdf) { Dragonfly::Content.new(app, SAMPLES_DIR.join('memo.pdf')) }
+  let(:content_image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.png')) } # 280x355
   let(:processor) { DragonflyLibvips::Processors::Encode.new }
 
-  describe 'converts to specified format' do
-    before { processor.call(content_image, 'jpg') }
-    it { content_image.ext.must_equal 'jpg' }
+  DragonflyLibvips::SUPPORTED_FORMATS.each do |format|
+    next unless File.exists?(SAMPLES_DIR.join("sample.#{format}"))
+    describe format.to_s do
+      let(:content) { app.fetch_file SAMPLES_DIR.join("sample.#{format}") }
+      let(:result) { content.encode('jpg') }
+      it { content.encode('jpg').ext.must_equal 'jpg' }
+      it { content.encode('jpg').mime_type.must_equal 'image/jpeg' }
+      it { content.encode('jpg').size.must_be :>, 0 }
+    end
+  end
+
+  DragonflyLibvips::SUPPORTED_OUTPUT_FORMATS.each do |format|
+    describe "output to #{format}" do
+      let(:content) { app.fetch_file SAMPLES_DIR.join("sample.png") }
+      let(:result) { content.encode(format) }
+      it { result.ext.must_equal format }
+      it { result.mime_type.must_equal Rack::Mime.mime_type(".#{format}") }
+      it { result.size.must_be :>, 0 }
+    end
   end
 
   describe 'allows for options' do
     before { processor.call(content_image, 'jpg', output_options: { Q: 50 }) }
     it { content_image.ext.must_equal 'jpg' }
-  end
-
-  describe 'supports PDF' do
-    before { processor.call(content_pdf, 'jpg', input_options: { page: 0, dpi: 300 }, output_options: { Q: 50 }) }
-    it { content_pdf.ext.must_equal 'jpg' }
   end
 end

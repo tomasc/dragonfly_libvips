@@ -1,6 +1,8 @@
 module DragonflyLibvips
   module Processors
     class Encode
+      FORMATS_WITHOUT_PROFILE_SUPPORT = %w[dz webp hdr]
+
       def call(content, format, options = {})
         raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext)
 
@@ -21,7 +23,9 @@ module DragonflyLibvips
         if content.mime_type == 'image/jpeg'
           input_options['autorotate'] = true unless input_options.has_key?('autorotate')
         end
+
         output_options['profile'] ||= EPROFILE_PATH
+        output_options.delete('profile') if FORMATS_WITHOUT_PROFILE_SUPPORT.include?(format)
 
         require 'vips'
         img = ::Vips::Image.new_from_file(content.path, input_options)
