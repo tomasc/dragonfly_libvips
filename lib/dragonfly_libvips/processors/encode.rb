@@ -34,7 +34,11 @@ module DragonflyLibvips
         require 'vips'
         img = ::Vips::Image.new_from_file(content.path, input_options)
 
-        content.update(img.write_to_buffer(".#{format}", output_options), 'format' => format)
+        content.update(
+          img.write_to_buffer(".#{format}", output_options),
+          'name' => "temp.#{format}",
+          'format' => format
+        )
         content.ext = format
       end
 

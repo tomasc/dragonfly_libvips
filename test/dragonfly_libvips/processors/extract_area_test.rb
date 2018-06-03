@@ -24,4 +24,10 @@ describe DragonflyLibvips::Processors::ExtractArea do
     it { content.must_have_height height }
     it { content.ext.must_equal 'jpg' }
   end
+
+  describe 'tempfile has extension' do
+    let(:format) { 'jpg' }
+    before { processor.call(content, x, y, width, height, format: format) }
+    it { content.tempfile.path.must_match /\.#{format}\z/ }
+  end
 end

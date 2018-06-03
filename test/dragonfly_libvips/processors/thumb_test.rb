@@ -106,4 +106,10 @@ describe DragonflyLibvips::Processors::Thumb do
       it { url_attributes.ext.must_be_nil }
     end
   end
+
+  describe 'tempfile has extension' do
+    let(:format) { 'jpg' }
+    before { processor.call(image, '100x', format: 'jpg') }
+    it { image.tempfile.path.must_match /\.#{format}\z/ }
+  end
 end

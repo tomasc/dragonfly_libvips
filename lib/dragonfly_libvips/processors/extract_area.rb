@@ -21,7 +21,11 @@ module DragonflyLibvips
 
         img = img.extract_area(x, y, width, height)
 
-        content.update(img.write_to_buffer(".#{format}", output_options), 'format' => format)
+        content.update(
+          img.write_to_buffer(".#{format}", output_options),
+          'name' => "temp.#{format}",
+          'format' => format
+        )
         content.ext = format
       end
 

@@ -54,7 +54,11 @@ module DragonflyLibvips
         thumbnail_options = thumbnail_options.each_with_object({}) { |(k, v), memo| memo[k.to_sym] = v } # symbolize
         thumb = ::Vips::Image.thumbnail(filename, dimensions.width.ceil, thumbnail_options)
 
-        content.update(thumb.write_to_buffer(".#{format}", output_options), 'format' => format)
+        content.update(
+          thumb.write_to_buffer(".#{format}", output_options),
+          'name' => "temp.#{format}",
+          'format' => format
+        )
         content.ext = format
       end
 

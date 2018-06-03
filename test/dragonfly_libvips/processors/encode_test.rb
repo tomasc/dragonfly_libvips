@@ -28,4 +28,10 @@ describe DragonflyLibvips::Processors::Encode do
     before { processor.call(content_image, 'jpg', output_options: { Q: 50 }) }
     it { content_image.ext.must_equal 'jpg' }
   end
+
+  describe 'tempfile has extension' do
+    let(:format) { 'jpg' }
+    before { processor.call(content_image, format) }
+    it { content_image.tempfile.path.must_match /\.#{format}\z/ }
+  end
 end
