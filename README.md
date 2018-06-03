@@ -83,10 +83,12 @@ Change the encoding with
 image.encode('jpg')
 ```
 
-optionally pass output arguments (specific to format)
+### Extract Area
+
+Extract an area from an image.
 
 ```ruby
-image.encode('jpg')
+image.extract_area(x, y, width, height)
 ```
 
 ### Rotate

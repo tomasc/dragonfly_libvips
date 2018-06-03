@@ -60,6 +60,12 @@ module DragonflyLibvips
         it { content.encode('jpg', output_options: { Q: 1 }).size.must_be :<, 65_000 }
       end
 
+      describe 'extract_area' do
+        it { content.extract_area(100, 100, 50, 200, format: 'jpg').format.must_equal 'jpg' }
+        it { content.extract_area(100, 100, 50, 200, format: 'jpg').width.must_equal 50 }
+        it { content.extract_area(100, 100, 50, 200, format: 'jpg').height.must_equal 200 }
+      end
+
       describe 'rotate' do
         it { content.rotate(90).width.must_equal 355 }
         it { content.rotate(90).height.must_equal 280 }

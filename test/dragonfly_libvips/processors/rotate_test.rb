@@ -27,10 +27,10 @@ describe DragonflyLibvips::Processors::Rotate do
   end
 
   describe 'rotate with format' do
-    before { processor.call(content, 90, format: 'png') }
+    before { processor.call(content, 90, format: 'jpg') }
 
     it { content.must_have_width 355 }
     it { content.must_have_height 280 }
-    it { content.ext.must_equal 'png' }
+    it { content.ext.must_equal 'jpg' }
   end
 end

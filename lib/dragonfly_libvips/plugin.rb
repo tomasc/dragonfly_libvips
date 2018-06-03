@@ -1,5 +1,6 @@
 require 'dragonfly_libvips/analysers/image_properties'
 require 'dragonfly_libvips/processors/encode'
+require 'dragonfly_libvips/processors/extract_area'
 require 'dragonfly_libvips/processors/rotate'
 require 'dragonfly_libvips/processors/thumb'
 
@@ -37,6 +38,7 @@ module DragonflyLibvips
 
       # Processors
       app.add_processor :encode, Processors::Encode.new
+      app.add_processor :extract_area, Processors::ExtractArea.new
       app.add_processor :thumb, Processors::Thumb.new
       app.add_processor :rotate, Processors::Rotate.new
     end
