@@ -19,6 +19,7 @@ describe DragonflyLibvips::Processors::Encode do
           result = content.encode(output_format)
           content.encode(output_format).mime_type.must_equal Rack::Mime.mime_type(".#{output_format}")
           content.encode(output_format).size.must_be :>, 0
+          content.encode(output_format).tempfile.path.must_match /\.#{output_format_short(output_format)}\z/
         end
       end
     end
@@ -29,9 +30,11 @@ describe DragonflyLibvips::Processors::Encode do
     it { content_image.ext.must_equal 'jpg' }
   end
 
-  describe 'tempfile has extension' do
-    let(:format) { 'jpg' }
-    before { processor.call(content_image, format) }
-    it { content_image.tempfile.path.must_match /\.#{format}\z/ }
+  def output_format_short(format)
+    case format
+    when 'tiff' then 'tif'
+    when 'jpeg' then 'jpg'
+    else format
+    end
   end
 end
