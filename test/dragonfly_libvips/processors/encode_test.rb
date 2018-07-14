@@ -1,23 +1,40 @@
-# require 'test_helper'
-#
-# describe DragonflyLibvips::Processors::Encode do
-#   let(:app) { test_libvips_app }
-#   let(:image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('beach.png')) } # 280x355
-#   let(:pdf) { Dragonfly::Content.new(app, SAMPLES_DIR.join('memo.pdf')) }
-#   let(:processor) { DragonflyLibvips::Processors::Encode.new }
-#
-#   it 'converts to specified format' do
-#     processor.call(image, 'jpg')
-#     image.ext.must_equal 'jpg'
-#   end
-#
-#   it 'allows for options' do
-#     processor.call(image, 'jpg', output_options: { Q: 50 })
-#     image.ext.must_equal 'jpg'
-#   end
-#
-#   it 'supports PDF' do
-#     processor.call(pdf, 'jpg', input_options: { page: 0, dpi: 300 }, output_options: { Q: 50 })
-#     pdf.ext.must_equal 'jpg'
-#   end
-# end
+require 'test_helper'
+
+describe DragonflyLibvips::Processors::Encode do
+  let(:app) { test_libvips_app }
+  let(:content_image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.png')) } # 280x355
+  let(:processor) { DragonflyLibvips::Processors::Encode.new }
+
+  describe 'SUPPORTED_FORMATS' do
+    DragonflyLibvips::SUPPORTED_FORMATS.each do |format|
+      unless File.exist?(SAMPLES_DIR.join("sample.#{format}"))
+        it(format) { skip "sample.#{format} does not exist, skipping" }
+        next
+      end
+
+      let(:content) { app.fetch_file SAMPLES_DIR.join("sample.#{format}") }
+
+      DragonflyLibvips::SUPPORTED_OUTPUT_FORMATS.each do |output_format|
+        it("#{format} to #{output_format}") do
+          result = content.encode(output_format)
+          content.encode(output_format).mime_type.must_equal Rack::Mime.mime_type(".#{output_format}")
+          content.encode(output_format).size.must_be :>, 0
+          content.encode(output_format).tempfile.path.must_match /\.#{output_format_short(output_format)}\z/
+        end
+      end
+    end
+  end
+
+  describe 'allows for options' do
+    before { processor.call(content_image, 'jpg', output_options: { Q: 50 }) }
+    it { content_image.ext.must_equal 'jpg' }
+  end
+
+  def output_format_short(format)
+    case format
+    when 'tiff' then 'tif'
+    when 'jpeg' then 'jpg'
+    else format
+    end
+  end
+end

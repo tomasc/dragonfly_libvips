@@ -1,7 +1,7 @@
 module DragonflyLibvips
   module Processors
-    class Rotate
-      def call(content, rotate, options = {})
+    class ExtractArea
+      def call(content, x, y, width, height, options = {})
         raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext)
 
         options = options.each_with_object({}) { |(k, v), memo| memo[k.to_s] = v } # stringify keys
@@ -19,7 +19,7 @@ module DragonflyLibvips
         require 'vips'
         img = ::Vips::Image.new_from_file(content.path, input_options)
 
-        img = img.rot("d#{rotate}")
+        img = img.extract_area(x, y, width, height)
 
         content.update(
           img.write_to_buffer(".#{format}", output_options),
@@ -29,7 +29,7 @@ module DragonflyLibvips
         content.ext = format
       end
 
-      def update_url(url_attributes, _, options = {})
+      def update_url(url_attributes, _, _, _, _, options = {})
         options = options.each_with_object({}) { |(k, v), memo| memo[k.to_s] = v } # stringify keys
         return unless format = options.fetch('format', nil)
         url_attributes.ext = format
