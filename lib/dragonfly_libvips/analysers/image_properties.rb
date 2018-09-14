@@ -20,13 +20,15 @@ module DragonflyLibvips
         xres = img.xres
         yres = img.yres
 
-        {
+        res = {
           'format' => content.ext.to_s,
           'width' => width,
           'height' => height,
           'xres' => xres,
           'yres' => yres
         }
+        res['progressive'] = img.get('jpeg-multiscan') != 0 if content.mime_type == 'image/jpeg'
+        res
       end
     end
   end
