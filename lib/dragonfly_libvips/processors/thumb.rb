@@ -9,7 +9,8 @@ module DragonflyLibvips
       DPI = 300
 
       def call(content, geometry, options = {})
-        raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext)
+        raise UnsupportedFormat unless content.ext
+        raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext.downcase)
 
         options = options.each_with_object({}) { |(k, v), memo| memo[k.to_s] = v } # stringify keys
 

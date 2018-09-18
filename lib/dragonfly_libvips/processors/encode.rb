@@ -4,13 +4,14 @@ module DragonflyLibvips
       FORMATS_WITHOUT_PROFILE_SUPPORT = %w[dz webp hdr]
 
       def call(content, format, options = {})
-        raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext)
+        raise UnsupportedFormat unless content.ext
+        raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext.downcase)
 
         format = format.to_s
         format = 'tif' if format == 'tiff'
         format = 'jpg' if format == 'jpeg'
 
-        raise UnsupportedOutputFormat unless SUPPORTED_OUTPUT_FORMATS.include?(format)
+        raise UnsupportedOutputFormat unless SUPPORTED_OUTPUT_FORMATS.include?(format.downcase)
 
         if content.mime_type == Rack::Mime.mime_type(".#{format}")
           content.ext ||= format

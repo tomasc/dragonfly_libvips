@@ -2,7 +2,8 @@ module DragonflyLibvips
   module Processors
     class ExtractArea
       def call(content, x, y, width, height, options = {})
-        raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext)
+        raise UnsupportedFormat unless content.ext
+        raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext.downcase)
 
         options = options.each_with_object({}) { |(k, v), memo| memo[k.to_s] = v } # stringify keys
         format = options.fetch('format', content.ext)

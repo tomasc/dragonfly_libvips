@@ -13,12 +13,12 @@ module DragonflyLibvips
 
   SUPPORTED_FORMATS = begin
     output = `vips -l | grep -i ForeignLoad`
-    output.scan(/\.(\w{1,4})/).flatten.sort.uniq
+    output.scan(/\.(\w{1,4})/).flatten.compact.sort.map(&:downcase).uniq
   end
 
   SUPPORTED_OUTPUT_FORMATS = begin
     output = `vips -l | grep -i ForeignSave`
-    output.scan(/\.(\w{1,4})/).flatten.sort.uniq
+    output.scan(/\.(\w{1,4})/).flatten.compact.sort.map(&:downcase).uniq
   end - %w[
     csv
     mat

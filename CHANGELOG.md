@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.3.1
+
+* improved `SUPPORTED_FORMATS` matching that ignores case
+
 ## 2.3.0
 
 * add support for progressive JPEGs
