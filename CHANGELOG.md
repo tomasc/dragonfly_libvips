@@ -2,7 +2,7 @@
 
 ## 2.3.0
 
-* add `progressive` image property
+* add support for progressive JPEGs
 
 ## 2.2.0
 
