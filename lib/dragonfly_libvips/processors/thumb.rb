@@ -21,8 +21,8 @@ module DragonflyLibvips
         input_options['autorotate'] = input_options.fetch('autorotate', true) if content.mime_type == 'image/jpeg'
 
         if content.mime_type == 'application/pdf'
-          input_options['dpi'] = input_options.fetch('dpi', DPI) if content.mime_type == 'application/pdf'
-          input_options['page'] = input_options.fetch('page', 0) if content.mime_type == 'application/pdf'
+          input_options['dpi'] = input_options.fetch('dpi', DPI)
+          input_options['page'] = input_options.fetch('page', 0)
         else
           input_options.delete('page')
           input_options.delete('dpi')

@@ -105,6 +105,7 @@ All processors support `input_options` and `output_options` for passing addition
 
 ```ruby
 image.encode('jpg', output_options: { Q: 50 })
+image.encode('jpg', output_options: { interlace: true }) # use interlace to generate a progressive jpg
 pdf.encode('jpg', input_options: { page: 0, dpi: 600 })
 ```
 
@@ -124,6 +125,7 @@ image.width # => 280
 image.height # => 355
 image.xres # => 72.0
 image.yres # => 72.0
+image.progressive # => true
 image.aspect_ratio # => 0.788732394366197
 image.portrait? # => true
 image.landscape? # => false

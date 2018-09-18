@@ -5,6 +5,7 @@ describe DragonflyLibvips::Processors::Thumb do
   let(:app) { test_libvips_app }
   let(:image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.png')) } # 280x355
   let(:pdf) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.pdf')) }
+  let(:jpg) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.jpg')) }
   let(:cmyk) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample_cmyk.jpg')) }
   let(:landscape_image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('landscape_sample.png')) } # 355x280
   let(:processor) { DragonflyLibvips::Processors::Thumb.new }
@@ -79,6 +80,13 @@ describe DragonflyLibvips::Processors::Thumb do
       before { processor.call(pdf, '500x500', format: 'jpg', input_options: { page: 0 }) }
       it { pdf.must_have_width 387 }
       it { pdf.must_have_height 500 }
+    end
+  end
+
+  describe 'jpg' do
+    describe 'progressive' do
+      before { processor.call(jpg, '300x', output_options: { interlace: true }) }
+      it { (`vipsheader -f jpeg-multiscan #{jpg.file.path}`.to_i == 1).must_equal true }
     end
   end
 

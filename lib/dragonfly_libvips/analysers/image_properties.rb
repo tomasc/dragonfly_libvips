@@ -25,7 +25,8 @@ module DragonflyLibvips
           'width' => width,
           'height' => height,
           'xres' => xres,
-          'yres' => yres
+          'yres' => yres,
+          'progressive' => (content.mime_type == 'image/jpeg' && img.get('jpeg-multiscan') != 0)
         }
       end
     end
