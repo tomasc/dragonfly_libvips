@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.3.0
+
+* add `progressive` image property
+
 ## 2.2.0
 
 * add `SUPPORTED_FORMATS` and `SUPPORTED_OUTPUT_FORMATS` and raise errors when formats are not matching
