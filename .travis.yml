@@ -5,15 +5,14 @@ script: 'bundle exec rake'
 sudo: required
 dist: trusty
 rvm:
-  - 2.2.5
+  - 2.6.1
 
 before_install:
   - gem install bundler -v 1.12.5
   - sudo apt-get update
   - sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev
-  - curl -OL https://github.com/jcupitt/libvips/releases/download/v8.5.8/vips-8.5.8.tar.gz
-  - tar zvxf vips-8.5.8.tar.gz && cd vips-8.5.8 && ./configure && sudo make && sudo make install
-  - export GI_TYPELIB_PATH=/usr/local/lib/girepository-1.0/
+  - curl -OL https://github.com/libvips/libvips/releases/download/v8.7.4/vips-8.7.4.tar.gz
+  - tar xvf vips-8.7.4.tar.gz && cd vips-8.7.4 && ./configure $1 && sudo make && sudo make install
   - sudo ldconfig
 
 notifications:
