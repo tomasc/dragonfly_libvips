@@ -30,4 +30,6 @@ module DragonflyLibvips
     vips
     webp
   ]
+
+  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[bmp dz gif hdr webp]
 end
