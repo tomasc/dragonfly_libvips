@@ -10,7 +10,7 @@ rvm:
 before_install:
   - gem install bundler -v 1.12.5
   - sudo apt-get update
-  - sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev giflib
+  - sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev libgif-dev
   - curl -OL https://imagemagick.org/download/ImageMagick.tar.gz
   - tar xvzf ImageMagick.tar.gz && cd ImageMagick-7.0.8-27 && ./configure --with-modules=yes && sudo make && sudo make install
   - sudo ldconfig
