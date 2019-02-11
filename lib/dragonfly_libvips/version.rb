@@ -1,3 +1,3 @@
 module DragonflyLibvips
-  VERSION = '2.3.1'.freeze
+  VERSION = '2.3.2'.freeze
 end

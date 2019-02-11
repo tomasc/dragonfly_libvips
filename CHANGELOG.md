@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.3.2
+
+* FIX: support for .gif
+
 ## 2.3.1
 
 * improved `SUPPORTED_FORMATS` matching that ignores case
