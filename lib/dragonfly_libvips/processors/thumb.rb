@@ -36,6 +36,7 @@ module DragonflyLibvips
           output_options['profile'] ||= input_options.fetch('profile', EPROFILE_PATH)
         end
         output_options.delete('Q') unless format.to_s =~ /jpg|jpeg/i
+        output_options['format'] ||= format.to_s if format.to_s =~ /gif|bmp/i
 
         input_options = input_options.each_with_object({}) { |(k, v), memo| memo[k.to_sym] = v } # symbolize
         img = ::Vips::Image.new_from_file(filename, input_options)

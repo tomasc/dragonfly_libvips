@@ -1,3 +1,5 @@
+require 'vips'
+
 module DragonflyLibvips
   module Processors
     class ExtractArea
@@ -22,10 +24,9 @@ module DragonflyLibvips
           output_options['profile'] ||= input_options.fetch('profile', EPROFILE_PATH)
         end
         output_options.delete('Q') unless format.to_s =~ /jpg|jpeg/i
+        output_options['format'] ||= format.to_s if format.to_s =~ /gif|bmp/i
 
-        require 'vips'
         img = ::Vips::Image.new_from_file(content.path, input_options)
-
         img = img.extract_area(x, y, width, height)
 
         content.update(

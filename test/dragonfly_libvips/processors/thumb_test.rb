@@ -7,6 +7,8 @@ describe DragonflyLibvips::Processors::Thumb do
   let(:pdf) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.pdf')) }
   let(:jpg) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.jpg')) }
   let(:cmyk) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample_cmyk.jpg')) }
+  let(:gif) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample.gif')) }
+  let(:anim_gif) { Dragonfly::Content.new(app, SAMPLES_DIR.join('sample_anim.gif')) }
   let(:landscape_image) { Dragonfly::Content.new(app, SAMPLES_DIR.join('landscape_sample.png')) } # 355x280
   let(:processor) { DragonflyLibvips::Processors::Thumb.new }
 
@@ -87,6 +89,21 @@ describe DragonflyLibvips::Processors::Thumb do
     describe 'progressive' do
       before { processor.call(jpg, '300x', output_options: { interlace: true }) }
       it { (`vipsheader -f jpeg-multiscan #{jpg.file.path}`.to_i == 1).must_equal true }
+    end
+  end
+
+  describe 'gif' do
+    describe 'static' do
+      before { processor.call(gif, '200x') }
+      it { gif.must_have_width 200 }
+    end
+
+    describe 'animated' do
+      before { processor.call(anim_gif, '200x') }
+      it {
+        skip 'waiting for full support'
+        gif.must_have_width 200
+      }
     end
   end
 
