@@ -13,6 +13,7 @@ before_install:
   - sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev
   - curl -OL https://imagemagick.org/download/ImageMagick.tar.gz
   - tar xvzf ImageMagick.tar.gz && cd ImageMagick-7.0.8-27 && ./configure --with-modules=yes && sudo make && sudo make install
+  - sudo ldconfig
   - export GI_TYPELIB_PATH=/usr/local/lib/girepository-1.0/
   - curl -OL https://github.com/libvips/libvips/releases/download/v8.7.4/vips-8.7.4.tar.gz
   - tar xvf vips-8.7.4.tar.gz && cd vips-8.7.4 && ./configure $1 && sudo make && sudo make install
