@@ -10,7 +10,7 @@ rvm:
 before_install:
   - gem install bundler -v 1.12.5
   - sudo apt-get update
-  - sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev
+  - sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev imagemagick
   - curl -OL https://github.com/libvips/libvips/releases/download/v8.7.4/vips-8.7.4.tar.gz
   - tar xvf vips-8.7.4.tar.gz && cd vips-8.7.4 && ./configure $1 && sudo make && sudo make install
   - sudo ldconfig
