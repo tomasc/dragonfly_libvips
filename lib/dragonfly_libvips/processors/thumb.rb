@@ -47,7 +47,11 @@ module DragonflyLibvips
         end
 
         thumbnail_options = options.fetch('thumbnail_options', {})
-        thumbnail_options['auto_rotate'] = input_options.fetch('autorotate', true) if content.mime_type == 'image/jpeg'
+        if Vips.at_least_libvips?(8, 8)
+          thumbnail_options['no_rotate'] = input_options.fetch('no_rotate', false) if content.mime_type == 'image/jpeg'
+        else
+          thumbnail_options['auto_rotate'] = input_options.fetch('autorotate', true) if content.mime_type == 'image/jpeg'
+        end
         thumbnail_options['height'] = thumbnail_options.fetch('height', dimensions.height.ceil)
         thumbnail_options['import_profile'] = CMYK_PROFILE_PATH if img.get('interpretation') == :cmyk
         thumbnail_options['size'] ||= case geometry
