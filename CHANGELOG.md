@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.3.3
+
+* locks `ruby-vips` to `< 2.0.14`
+* adds support for `libvips` `8.8.0`
+
 ## 2.3.2
 
 * FIX: support for .gif
