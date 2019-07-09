@@ -21,6 +21,9 @@ module DragonflyLibvips
     output.scan(/\.(\w{1,4})/).flatten.compact.sort.map(&:downcase).uniq
   end - %w[
     csv
+    fit
+    fits
+    fts
     mat
     pbm
     pfm
@@ -31,5 +34,5 @@ module DragonflyLibvips
     webp
   ]
 
-  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[bmp dz gif hdr webp]
+  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[bmp dz gif hdr webp heic]
 end
