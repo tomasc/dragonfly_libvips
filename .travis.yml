@@ -12,9 +12,9 @@ before_install:
   - gem update bundler
   - sudo apt-get update
   - sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev libgif-dev
-  - export GI_TYPELIB_PATH=/usr/local/lib/girepository-1.0/
   - curl -OL https://github.com/libvips/libvips/releases/download/v8.7.4/vips-8.7.4.tar.gz
-  - tar xvf vips-8.7.4.tar.gz && cd vips-8.7.4 && ./configure $1 && sudo make && sudo make install
+  - tar zxvf vips-8.7.4.tar.gz && cd vips-8.7.4 && ./configure $1 && sudo make && sudo make install
+  - export GI_TYPELIB_PATH=/usr/local/lib/girepository-1.0/
   - sudo ldconfig
 
 notifications:
