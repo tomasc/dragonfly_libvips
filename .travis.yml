@@ -8,7 +8,7 @@ rvm:
   - 2.6.1
 
 before_install:
-  - gem install bundler -v 1.12.5
+  - gem install bundler -v 2.0.2
   - sudo apt-get update
   - sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev libgif-dev
   # - sudo ldconfig
