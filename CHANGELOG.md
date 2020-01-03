@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.4.0
+
+* symbolize `input_options` and `output_options` to avoid argument errors coming from `ruby-vips`
+
 ## 2.3.3
 
 * locks `ruby-vips` to `< 2.0.14`
