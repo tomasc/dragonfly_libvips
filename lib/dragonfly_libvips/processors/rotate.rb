@@ -7,7 +7,7 @@ module DragonflyLibvips
         raise UnsupportedFormat unless content.ext
         raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext.downcase)
 
-        options = options.each_with_object({}) { |(k, v), memo| memo[k.to_s] = v } # stringify keys
+        options = DragonflyLibvips.stringify_keys(options)
         format = options.fetch('format', content.ext)
 
         input_options = options.fetch('input_options', {})
@@ -26,11 +26,11 @@ module DragonflyLibvips
         output_options.delete('Q') unless format.to_s =~ /jpg|jpeg/i
         output_options['format'] ||= format.to_s if format.to_s =~ /gif|bmp/i
 
-        img = ::Vips::Image.new_from_file(content.path, input_options)
+        img = ::Vips::Image.new_from_file(content.path, DragonflyLibvips.symbolize_keys(input_options))
         img = img.rot("d#{rotate}")
 
         content.update(
-          img.write_to_buffer(".#{format}", output_options),
+          img.write_to_buffer(".#{format}", DragonflyLibvips.symbolize_keys(output_options)),
           'name' => "temp.#{format}",
           'format' => format
         )

@@ -35,4 +35,14 @@ module DragonflyLibvips
   ]
 
   FORMATS_WITHOUT_PROFILE_SUPPORT = %w[bmp dz gif hdr webp heic]
+
+  private
+
+  def self.stringify_keys(hash = {})
+    hash.each_with_object({}) { |(k, v), memo| memo[k.to_s] = v }
+  end
+
+  def self.symbolize_keys(hash = {})
+    hash.each_with_object({}) { |(k, v), memo| memo[k.to_sym] = v }
+  end
 end
