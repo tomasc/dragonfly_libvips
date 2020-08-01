@@ -2,11 +2,11 @@
 
 [![Build Status](https://travis-ci.org/tomasc/dragonfly_libvips.svg)](https://travis-ci.org/tomasc/dragonfly_libvips) [![Gem Version](https://badge.fury.io/rb/dragonfly_libvips.svg)](http://badge.fury.io/rb/dragonfly_libvips) [![Coverage Status](https://img.shields.io/coveralls/tomasc/dragonfly_libvips.svg)](https://coveralls.io/r/tomasc/dragonfly_libvips)
 
-Dragonfly analysers and processors for [libvips](https://github.com/jcupitt/libvips) image processing library
+Dragonfly analysers and processors for [libvips](https://github.com/libvips/libvips) image processing library
 
 From the libvips README:
 
-> libvips is a 2D image processing library. Compared to similar libraries, [libvips runs quickly and uses little memory](http://www.vips.ecs.soton.ac.uk/index.php?title=Speed_and_Memory_Use). libvips is licensed under the LGPL 2.1+.
+> libvips is a 2D image processing library. Compared to similar libraries, [libvips runs quickly and uses little memory](https://github.com/libvips/libvips/wiki/Speed-and-memory-use). libvips is licensed under the LGPL 2.1+.
 
 ## Installation
 
@@ -34,7 +34,7 @@ If you run into trouble installing `libvips` with Ruby introspection on Linux, f
 
 ## Dependencies
 
-The [vips](http://www.vips.ecs.soton.ac.uk/index.php?title=Supported) library and its [dependencies](https://github.com/jcupitt/libvips#dependencies).
+The [vips](http://www.vips.ecs.soton.ac.uk/index.php?title=Supported) library and its [dependencies](https://github.com/libvips/libvips#dependencies).
 
 ## Usage
 
