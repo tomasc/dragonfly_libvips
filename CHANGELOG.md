@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.4.1
+
+* Fix misspelled UnsupportedOutputFormat (#13) by @asgerb
+* Fix broken links in README (#12) by @NARKOZ
+
 ## 2.4.0
 
 * symbolize `input_options` and `output_options` to avoid argument errors coming from `ruby-vips`
