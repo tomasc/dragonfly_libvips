@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.4.2
+
+* Add `webp` as supported format, and `aviz` and `heif` to formats without profile support (#14) by @asgerb
+
 ## 2.4.1
 
 * Fix misspelled UnsupportedOutputFormat (#13) by @asgerb
