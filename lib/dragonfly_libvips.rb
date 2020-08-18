@@ -31,10 +31,9 @@ module DragonflyLibvips
     ppm
     v
     vips
-    webp
   ]
 
-  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[bmp dz gif hdr webp heic]
+  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[avif bmp dz gif hdr webp heic heif]
 
   private
 
