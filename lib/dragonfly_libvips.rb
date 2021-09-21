@@ -33,7 +33,7 @@ module DragonflyLibvips
     vips
   ]
 
-  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[avif bmp dz gif hdr webp heic heif]
+  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[avif bmp dz gif hdr heic heif jpc jpt jp2 j2c j2k webp ]
 
   private
 

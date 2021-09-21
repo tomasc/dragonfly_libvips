@@ -1,15 +1,17 @@
+$VERBOSE = nil
+# added to suppress warnings about method definitions
+#
 require 'bundler/setup'
-
 require 'minitest'
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/spec'
 
-require 'dragonfly'
+# require 'dragonfly'
 require 'dragonfly_libvips'
 
-SAMPLES_DIR = Pathname.new(File.expand_path('../../samples', __FILE__))
 
+SAMPLES_DIR = Pathname.new(File.expand_path('../../samples', __FILE__))
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
@@ -26,3 +28,4 @@ def test_libvips_app
     plugin :libvips
   end
 end
+

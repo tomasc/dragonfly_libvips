@@ -30,6 +30,7 @@ module DragonflyLibvips
         end
 
         output_options = options.fetch('output_options', {})
+
         if FORMATS_WITHOUT_PROFILE_SUPPORT.include?(format)
           output_options.delete('profile')
         else
@@ -37,11 +38,10 @@ module DragonflyLibvips
         end
         output_options.delete('Q') unless format.to_s =~ /jpg|jpeg/i
         output_options['format'] ||= format.to_s if format.to_s =~ /gif|bmp/i
-
-        img = ::Vips::Image.new_from_file(content.path, DragonflyLibvips.symbolize_keys(input_options))
+        img = ::Vips::Image.new_from_file(content.path, **DragonflyLibvips.symbolize_keys(input_options))
 
         content.update(
-          img.write_to_buffer(".#{format}", DragonflyLibvips.symbolize_keys(output_options)),
+          img.write_to_buffer(".#{format}", **DragonflyLibvips.symbolize_keys(output_options)),
           'name' => "temp.#{format}",
           'format' => format
         )

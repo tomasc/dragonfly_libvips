@@ -26,11 +26,11 @@ module DragonflyLibvips
         output_options.delete('Q') unless format.to_s =~ /jpg|jpeg/i
         output_options['format'] ||= format.to_s if format.to_s =~ /gif|bmp/i
 
-        img = ::Vips::Image.new_from_file(content.path, DragonflyLibvips.symbolize_keys(input_options))
+        img = ::Vips::Image.new_from_file(content.path, **DragonflyLibvips.symbolize_keys(input_options))
         img = img.extract_area(x, y, width, height)
 
         content.update(
-          img.write_to_buffer(".#{format}", DragonflyLibvips.symbolize_keys(output_options)),
+          img.write_to_buffer(".#{format}", **DragonflyLibvips.symbolize_keys(output_options)),
           'name' => "temp.#{format}",
           'format' => format
         )

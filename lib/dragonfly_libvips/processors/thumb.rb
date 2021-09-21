@@ -39,7 +39,7 @@ module DragonflyLibvips
         output_options['format'] ||= format.to_s if format.to_s =~ /gif|bmp/i
 
         input_options = input_options.each_with_object({}) { |(k, v), memo| memo[k.to_sym] = v } # symbolize
-        img = ::Vips::Image.new_from_file(filename, DragonflyLibvips.symbolize_keys(input_options))
+        img = ::Vips::Image.new_from_file(filename, **DragonflyLibvips.symbolize_keys(input_options))
 
         dimensions = case geometry
                      when RESIZE_GEOMETRY then Dimensions.call(geometry, img.width, img.height)
@@ -63,10 +63,10 @@ module DragonflyLibvips
         filename += "[page=#{input_options[:page]}]" if content.mime_type == 'application/pdf'
 
         thumbnail_options = thumbnail_options.each_with_object({}) { |(k, v), memo| memo[k.to_sym] = v } # symbolize
-        thumb = ::Vips::Image.thumbnail(filename, dimensions.width.ceil, DragonflyLibvips.symbolize_keys(thumbnail_options))
+        thumb = ::Vips::Image.thumbnail(filename, dimensions.width.ceil, **DragonflyLibvips.symbolize_keys(thumbnail_options))
 
         content.update(
-          thumb.write_to_buffer(".#{format}", DragonflyLibvips.symbolize_keys(output_options)),
+          thumb.write_to_buffer(".#{format}", **DragonflyLibvips.symbolize_keys(output_options)),
           'name' => "temp.#{format}",
           'format' => format
         )
