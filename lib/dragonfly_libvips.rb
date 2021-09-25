@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dragonfly'
 require 'dragonfly_libvips/dimensions'
 require 'dragonfly_libvips/plugin'
@@ -29,6 +31,7 @@ module DragonflyLibvips
     pfm
     pgm
     ppm
+    raw
     v
     vips
   ]
