@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'dragonfly'
 require 'dragonfly_libvips/dimensions'
 require 'dragonfly_libvips/geometry'
@@ -40,10 +41,15 @@ module DragonflyLibvips
 
   # ImageMagick geometry strings. These from Dragonfly::ImageMagick, via RefineryCMS
 
-  OPERATORS = '><!'.freeze
-  RESIZE_GEOMETRY = /\A(?<geom_w>\d*)x(?<geom_h>\d*)(?<operators>[#{OPERATORS}]?)\z/ # e.g. '300x200>'
-  CROP_GEOMETRY = /\A(?<geom_w>\d+)x(?<geom_h>\d+)(?<xpos>[+-]\d+)?(?<ypos>[+-]\d+)?\z/ # e.g. '30x30+10+10'
-  CROPPED_RESIZE_GEOMETRY = /\A(?<geom_w>\d+)x(?<geom_h>\d+)#(?<gravity>\w{1,2})?\z/ # e.g. '20x50#ne'
+  area         = /(?<area>\d+@)/
+  gravity      = /(?<gravity>#\w{1,2})/
+  modifiers    = /(?<modifiers>[><%^!])/
+  offset       = /(?<x_offset>[+-]\d+)?(?<y_offset>[+-]\d+)/
+  width_height = /(?<geom_w>\d+)?x?(?<geom_h>\d+)?/
+
+  RESIZE_GEOMETRY = /\A#{width_height}#{modifiers}?\z|\A#{area}\z/ # e.g. '300x200!' or '900@'
+  CROPPED_RESIZE_GEOMETRY = /\A#{width_height}#{gravity}?\z/ # e.g. '20x50#ne'
+  CROP_GEOMETRY = /\A#{width_height}(#{offset})?\z/ # e.g. '30x30+10+10'
 
 
   def self.stringify_keys(**hash )

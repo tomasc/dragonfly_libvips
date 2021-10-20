@@ -1,6 +1,6 @@
 module DragonflyLibvips
 
-  class Geometry < Struct.new(:geom_w, :geom_h, :xpos, :ypos, :operators, :gravity, keyword_init: true)
+  class Geometry < Struct.new(:geom_w, :geom_h, :x_offset, :y_offset, :modifiers, :area, :gravity, keyword_init: true)
     def self.call(geometry)
       new.call(geometry)
     end
@@ -9,9 +9,7 @@ module DragonflyLibvips
       case geometry
         when thumb_geometry
           matches = geometry.match(thumb_geometry).named_captures.compact
-          %w[geom_w geom_h xpos ypos].each do |key|
-            matches[key] = matches.fetch(key, nil).to_i
-          end
+          %w[geom_w geom_h x_offset y_offset area].each { |key| matches[key] = matches.fetch(key, nil).to_i }
           matches
         else raise ArgumentError, "Didn't recognise the geometry string: #{geometry}"
       end

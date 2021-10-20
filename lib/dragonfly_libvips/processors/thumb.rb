@@ -10,34 +10,41 @@ module DragonflyLibvips
       DPI = 300
       CROP_KEYS = [:x, :y]
 
-      def call(content, geometry,  options={})
-        wrap_process(content, **options) do |img,  **input_options|
+      def call(content, geometry, options = {})
+
+        wrap_process(content, **options) do |img, **input_options|
 
           dimensions = Dimensions.call(orig_w: img.width, orig_h: img.height, **Geometry.call(geometry))
           crop_content = !(dimensions.to_h.keys & CROP_KEYS).empty?
 
-          thumbnail_options = options.fetch('thumbnail_options', {})
-          if Vips.at_least_libvips?(8, 8)
-            thumbnail_options['no_rotate'] = input_options.fetch('no_rotate', false) if content.mime_type == 'image/jpeg'
-          else
-            thumbnail_options['auto_rotate'] = input_options.fetch('autorotate', true) if content.mime_type == 'image/jpeg'
-          end
-          thumbnail_options['height'] = thumbnail_options.fetch('height', dimensions.height.ceil)
-          thumbnail_options['import_profile'] = CMYK_PROFILE_PATH if img.get('interpretation') == :cmyk
-          thumbnail_options['size'] ||= case geometry
-            when />\z/ then :down # do_not_resize_if_image_smaller_than_requested
-            when /<\z/ then :up # do_not_resize_if_image_larger_than_requested
-            else :both
-          end
-
-          thumbnail_options = thumbnail_options.each_with_object({}) { |(k, v), memo| memo[k.to_sym] = v } # symbolize
           if crop_content
-            img.extract_area(dimensions.x, dimensions.y, dimensions.width, dimensions.height)
+            img.crop(dimensions.x, dimensions.y, dimensions.width, dimensions.height)
           else
-            img.thumbnail_image(dimensions.width.ceil, **DragonflyLibvips.symbolize_keys(**thumbnail_options))
+            thumbnail_options = set_thumbnail_options(input_options,
+                                                      dimensions,
+                                                      output_cmyk: img.get('interpretation') == :cmyk,
+                                                      input_is_jpeg: content.mime_type == 'image/jpeg')
+            img.thumbnail_image(dimensions.width.ceil, **thumbnail_options)
           end
         end
       end
     end
+
+    def set_thumbnail_options(input_options, dimensions, input_is_jpeg: false, output_cmyk: false)
+      options = input_options.fetch('thumbnail_options', {})
+      options[:height] = options.fetch('height', dimensions.height.ceil)
+
+      if input_is_jpeg
+        if Vips.at_least_libvips?(8, 8)
+          options[:no_rotate] = input_options.fetch('no_rotate', false)
+        else
+          options[:auto_rotate] = input_options.fetch('autorotate', true)
+        end
+      end
+      options[:import_profile] = CMYK_PROFILE_PATH if output_cmyk
+      options[:size] ||= dimensions.resize
+      options
+    end
   end
 end
+

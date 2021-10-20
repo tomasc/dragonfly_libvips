@@ -15,7 +15,7 @@ describe DragonflyLibvips::Processors::Thumb do
 
   it 'raises an error if an unrecognized string is given' do
     assert_raises(ArgumentError) do
-      processor.call(image, '1200@')
+      processor.call(image, '100x100>#ne!')
     end
   end
 
@@ -75,11 +75,12 @@ describe DragonflyLibvips::Processors::Thumb do
   describe 'cropping' do
 
     describe "crops correct area of image" do
-      before { processor.call(crop_tester, '128x128-64-64') }
+      before { processor.call(crop_tester, '128x128+64+64') }
       it { _(crop_tester).must_have_width 128 }
       it { _(crop_tester).must_have_height 128 }
 
-      it { _(crop_tester).must_have_color_at 64, 64, PINK }
+      it { _(crop_tester).must_have_color_at 10, 10, PINK }
+      it { _(crop_tester).must_have_color_at 64, 64, TRANSPARENT }
     end
 
     describe 'MMxNN+10+20, landscape' do
@@ -112,13 +113,13 @@ describe DragonflyLibvips::Processors::Thumb do
   describe 'pdf' do
     describe 'resize' do
       before { processor.call(pdf, '500x500', format: 'jpg') }
-      # it { _(pdf).must_have_width 386 }
+      it { _(pdf).must_have_width 386 }
       it { _(pdf).must_have_height 500 }
     end
 
     describe 'page param' do
       before { processor.call(pdf, '500x500', format: 'jpg', input_options: { page: 0 }) }
-      # it { _(pdf).must_have_width 386 }
+      it { _(pdf).must_have_width 386 }
       it { _(pdf).must_have_height 500 }
     end
   end
