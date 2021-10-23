@@ -8,8 +8,13 @@ require 'minitest/pride'
 require 'dragonfly_libvips'
 
 SAMPLES_DIR = Pathname.new(File.expand_path('../../samples', __FILE__))
-$VERBOSE=nil
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].sort.each { |f| require f }
+
+# suppress copious warnings
+# warning: method redefined; discarding old <method>
+# warning: previous definition of <method> was here
+# warning: instance variable @tempfile not initialized
+$VERBOSE = nil
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 

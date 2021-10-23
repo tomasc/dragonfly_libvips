@@ -46,7 +46,17 @@ module DragonflyLibvips
 
         output_options.delete('Q') unless format.to_s =~ /jpg|jpeg/i
         output_options['format'] ||= format.to_s if format.to_s =~ /gif|bmp/i
+        output_options['compression'] ||= get_compression_option(format.to_s) if format.to_s =~ /heif|avif/
         output_options
+      end
+
+      def get_compression_option(format)
+        case format
+          when 'heif'
+            'hevc'
+          when 'avif'
+            'av1'
+        end
       end
 
       def get_output_profile(format, output_profile, input_profile)

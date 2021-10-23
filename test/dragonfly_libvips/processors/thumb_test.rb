@@ -74,13 +74,21 @@ describe DragonflyLibvips::Processors::Thumb do
 
   describe 'cropping' do
 
-    describe "crops correct area of image" do
+    describe "crops image with offsets" do
       before { processor.call(crop_tester, '128x128+64+64') }
       it { _(crop_tester).must_have_width 128 }
       it { _(crop_tester).must_have_height 128 }
-
       it { _(crop_tester).must_have_color_at 10, 10, PINK }
       it { _(crop_tester).must_have_color_at 64, 64, TRANSPARENT }
+    end
+
+    describe  "crops image with gravity" do
+      before { processor.call(crop_tester, '128x128#ne') }
+      it { _(crop_tester).must_have_width 128 }
+      it { _(crop_tester).must_have_height 128 }
+      it { _(crop_tester).must_have_color_at 10, 10, PURPLE }
+      it { _(crop_tester).must_have_color_at 5, 120, TRANSPARENT }
+      it { _(crop_tester).must_have_color_at 0, 100, BLACK }
     end
 
     describe 'MMxNN+10+20, landscape' do

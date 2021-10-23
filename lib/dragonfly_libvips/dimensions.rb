@@ -13,7 +13,7 @@ module DragonflyLibvips
         when do_not_resize?
           OpenStruct.new(width: orig_w, height: orig_h, scale: 1)
         when cropping_requested?
-          OpenStruct.new(width: width, height: height, x: x_offset, y: y_offset, scale: scale)
+          OpenStruct.new(width: width, height: height, x: xoffset, y: yoffset, scale: scale)
         else
           OpenStruct.new(width: width, height: height, scale: scale, resize: resize)
       end
@@ -42,8 +42,9 @@ module DragonflyLibvips
     end
 
     def xoffset
-
-      x = case gravity
+      case gravity
+        when /c/
+          (orig_w - width)/2
         when /e/
           orig_w - width
         when /w/
@@ -54,8 +55,9 @@ module DragonflyLibvips
     end
 
     def yoffset
-
-      y = case gravity
+      case gravity
+        when /c/
+          (orig_h - height)/2
         when /n/
           0
         when /s/

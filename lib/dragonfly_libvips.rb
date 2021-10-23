@@ -37,12 +37,15 @@ module DragonflyLibvips
     vips
   ]
 
-  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[avif bmp dz gif hdr heic heif jpc jpt jp2 j2c j2k webp]
+  # FORMATS_WITHOUT_PROFILE_SUPPORT = %w[avif bmp dz gif hdr heic heif jpc jpt jp2 j2c j2k webp]
+  # %w(dz hdr jpc jpt jp2 j2c j2k webp)
+  # FORMATS_WITHOUT_PROFILE_SUPPORT = %w[avif bmp gif heic heif]
+  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[]
 
   # ImageMagick geometry strings. These from Dragonfly::ImageMagick, via RefineryCMS
 
   area         = /(?<area>\d+@)/
-  gravity      = /(?<gravity>#\w{1,2})/
+  gravity      = /#(?<gravity>\w{1,2})/
   modifiers    = /(?<modifiers>[><%^!])/
   offset       = /(?<x_offset>[+-]\d+)?(?<y_offset>[+-]\d+)/
   width_height = /(?<geom_w>\d+)?x?(?<geom_h>\d+)?/

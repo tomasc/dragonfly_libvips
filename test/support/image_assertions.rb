@@ -11,6 +11,7 @@ def image_properties(content)
     xres: img.xres,
     yres: img.yres,
   }
+
 end
 def color_at(content, x, y)
   Vips::Image.new_from_file(content.path, access: :sequential).getpoint(x, y).map(&:to_i)
