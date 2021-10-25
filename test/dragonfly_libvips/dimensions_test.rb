@@ -153,8 +153,8 @@ describe DragonflyLibvips::Dimensions do
       let(:orig_w) { 1000 }
       let(:orig_h) { 1000 }
 
-      it { _(result.width).must_equal 200 }
-      it { _(result.height).must_equal 100 }
+      it { _(result.x_scale).must_equal 5.0 }
+      it { _(result.y_scale).must_equal 10.0 }
     end
   end
 
@@ -165,15 +165,15 @@ describe DragonflyLibvips::Dimensions do
     describe 'with x offset' do
       let(:geometry) {'200x200+50+0'}
 
-      it {_(result.x).must_equal 450}
-      it {_(result.y).must_equal 400}
+      it {_(result.x).must_equal 50}
+      it {_(result.y).must_equal 0}
     end
 
     describe 'with y offset' do
       let(:geometry) {'200x200+0+50'}
 
-      it {_(result.x).must_equal 400 }
-      it {_(result.y).must_equal 450}
+      it {_(result.x).must_equal 0 }
+      it {_(result.y).must_equal 50}
     end
   end
 
@@ -191,6 +191,8 @@ describe DragonflyLibvips::Dimensions do
     describe 'north' do
       let(:geometry) {'200x200#n'}
 
+      it { _(result.width).must_equal 200 }
+      it { _(result.height).must_equal 200 }
       it { _(result.x).must_equal 400 }
       it { _(result.y).must_equal 0 }
     end

@@ -8,11 +8,13 @@ module DragonflyLibvips
 
     def call
       case
-        when exact_size_requested?
-          OpenStruct.new(width: geom_w, height: geom_h)
+        when ignore_aspect_ratio?
+          OpenStruct.new(x_scale: horizontal_scale, y_scale: vertical_scale)
         when do_not_resize?
           OpenStruct.new(width: orig_w, height: orig_h, scale: 1)
-        when cropping_requested?
+        when fill_area?
+          OpenStruct.new(width: width, height: height, scale: scale_to_fill)
+        when crop?
           OpenStruct.new(width: width, height: height, x: xoffset, y: yoffset, scale: scale)
         else
           OpenStruct.new(width: width, height: height, scale: scale, resize: resize)
@@ -41,14 +43,29 @@ module DragonflyLibvips
       width.to_f / orig_w
     end
 
+    def horizontal_scale
+      orig_w.to_f / geom_w
+    end
+
+    def vertical_scale
+      orig_h.to_f / geom_h
+    end
+
+    def scale_to_fill
+      1.0 / min(horizontal_scale, vertical_scale)
+    end
+
     def xoffset
+
       case gravity
         when /c/
-          (orig_w - width)/2
+          (orig_w - width) / 2
         when /e/
           orig_w - width
         when /w/
           0
+        when /[ns]/
+          (orig_w - width) / 2
         else
           x_offset
       end
@@ -57,11 +74,13 @@ module DragonflyLibvips
     def yoffset
       case gravity
         when /c/
-          (orig_h - height)/2
+          (orig_h - height) / 2
         when /n/
           0
         when /s/
           orig_h - height
+        when /[ew]/
+          (orig_h - height) / 2
         else
           y_offset
       end
@@ -93,7 +112,7 @@ module DragonflyLibvips
 
     def resize
       return :down if modifiers&.include? '>'
-      return :up   if modifiers&.include? '>'
+      return :up if modifiers&.include? '>'
       return :both
     end
 
@@ -113,11 +132,15 @@ module DragonflyLibvips
       do_not_resize_if_image_smaller_than_requested? || do_not_resize_if_image_larger_than_requested?
     end
 
-    def exact_size_requested?
+    def fill_area?
+      modifiers&.include?('\^')
+    end
+
+    def ignore_aspect_ratio?
       modifiers&.include?('!')
     end
 
-    def cropping_requested?
+    def crop?
       gravity || !(x_offset.zero? && y_offset.zero?)
     end
   end

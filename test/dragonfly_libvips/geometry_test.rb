@@ -7,7 +7,7 @@ describe DragonflyLibvips::Dimensions do
 
   it 'raises an error if an unrecognized string is given' do
     assert_raises(ArgumentError) do
-      DragonflyLibvips::Geometry.call('1200^')
+      DragonflyLibvips::Geometry.call('1200&')
     end
   end
 

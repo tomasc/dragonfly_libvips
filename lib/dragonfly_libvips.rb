@@ -52,8 +52,7 @@ module DragonflyLibvips
 
   RESIZE_GEOMETRY = /\A#{width_height}#{modifiers}?\z|\A#{area}\z/ # e.g. '300x200!' or '900@'
   CROPPED_RESIZE_GEOMETRY = /\A#{width_height}#{gravity}?\z/ # e.g. '20x50#ne'
-  CROP_GEOMETRY = /\A#{width_height}(#{offset})?\z/ # e.g. '30x30+10+10'
-
+  CROP_GEOMETRY = /\A#{width_height}(#{offset})?#{gravity}?\z/ # e.g. '30x30+10+10
 
   def self.stringify_keys(**hash )
     hash.transform_keys { |k| k.to_s }

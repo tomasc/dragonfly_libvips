@@ -15,7 +15,7 @@ describe DragonflyLibvips::Processors::Thumb do
 
   it 'raises an error if an unrecognized string is given' do
     assert_raises(ArgumentError) do
-      processor.call(image, '100x100>#ne!')
+      processor.call(image, '100x100>#ne(')
     end
   end
 
@@ -70,10 +70,25 @@ describe DragonflyLibvips::Processors::Thumb do
         it { _(image).must_have_height 500 }
       end
     end
+
+    describe 'NNxNN!' do
+      describe ' ignore aspect ratio' do
+        before { processor.call(image, '200x300!') }
+        it { _(image).must_have_width 200 }
+        it { _(image).must_have_height 300 }
+      end
+    end
+
+    describe 'NNXNN^' do
+      describe 'fill area' do
+        before { processor.call(image, '200x300^')}
+        it { _(image).must_have_width 237 }
+        it { _(image).must_have_height 300 }
+      end
+    end
   end
 
   describe 'cropping' do
-
     describe "crops image with offsets" do
       before { processor.call(crop_tester, '128x128+64+64') }
       it { _(crop_tester).must_have_width 128 }
@@ -82,7 +97,7 @@ describe DragonflyLibvips::Processors::Thumb do
       it { _(crop_tester).must_have_color_at 64, 64, TRANSPARENT }
     end
 
-    describe  "crops image with gravity" do
+    describe "crops image with gravity" do
       before { processor.call(crop_tester, '128x128#ne') }
       it { _(crop_tester).must_have_width 128 }
       it { _(crop_tester).must_have_height 128 }
@@ -106,15 +121,17 @@ describe DragonflyLibvips::Processors::Thumb do
 
   describe 'crop and resize' do
     describe 'MMxNN#c' do
-      before { processor.call(image, '100x127#c') }
-      it { _(image).must_have_width 100 }
-      it { _(image).must_have_height 127 }
+      before { processor.call(crop_tester, '100x100#c') }
+      it { _(crop_tester).must_have_width 100 }
+      it { _(crop_tester).must_have_height 100 }
+      it { _(crop_tester).must_have_color_at(10, 75, ORANGE) }
     end
 
     describe 'MMxNN#ne, portrait' do
-      before { processor.call(image, '100x127#ne') }
-      it { _(image).must_have_width 100 }
-      it { _(image).must_have_height 127 }
+      before { processor.call(crop_tester, '100x127#ne') }
+      it { _(crop_tester).must_have_width 100 }
+      it { _(crop_tester).must_have_height 100 }
+      it { _(crop_tester).must_have_color_at(10, 75, PURPLE) }
     end
   end
 
@@ -182,6 +199,6 @@ describe DragonflyLibvips::Processors::Thumb do
   describe 'tempfile has extension' do
     let(:format) { 'jpg' }
     before { processor.call(image, '100x', format: 'jpg') }
-    it { _(image.tempfile.path).must_match( /\.jpg\z/) }
+    it { _(image.tempfile.path).must_match(/\.jpg\z/) }
   end
 end
