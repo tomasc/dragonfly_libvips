@@ -36,10 +36,7 @@ module DragonflyLibvips
     v
     vips
   ]
-
-  # FORMATS_WITHOUT_PROFILE_SUPPORT = %w[avif bmp dz gif hdr heic heif jpc jpt jp2 j2c j2k webp]
-  # %w(dz hdr jpc jpt jp2 j2c j2k webp)
-  # FORMATS_WITHOUT_PROFILE_SUPPORT = %w[avif bmp gif heic heif]
+  
   FORMATS_WITHOUT_PROFILE_SUPPORT = %w[]
 
   # ImageMagick geometry strings. These from Dragonfly::ImageMagick, via RefineryCMS
