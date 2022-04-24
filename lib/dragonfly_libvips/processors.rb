@@ -4,6 +4,7 @@ module DragonflyLibvips
   module Processors
 
     def wrap_process(content, *args, **options, &block)
+
       raise DragonflyLibvips::UnsupportedFormat unless content.ext
       raise DragonflyLibvips::UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext.downcase)
 

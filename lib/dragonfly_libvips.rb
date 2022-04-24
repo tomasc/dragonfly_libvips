@@ -36,7 +36,7 @@ module DragonflyLibvips
     v
     vips
   ]
-  
+
   FORMATS_WITHOUT_PROFILE_SUPPORT = %w[]
 
   # ImageMagick geometry strings. These from Dragonfly::ImageMagick, via RefineryCMS

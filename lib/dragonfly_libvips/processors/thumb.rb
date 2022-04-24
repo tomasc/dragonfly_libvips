@@ -17,7 +17,7 @@ module DragonflyLibvips
         wrap_process(content, **options) do |img, **input_options|
 
           dimensions = Dimensions.call(orig_w: img.width, orig_h: img.height, **Geometry.call(geometry))
-          process = :shrink unless (dimensions.to_h.keys & SHRINK_KEYS).empty?
+          # process = :shrink unless (dimensions.to_h.keys & SHRINK_KEYS).empty?
           process = :crop unless (dimensions.to_h.keys & CROP_KEYS).empty?
           process = process ||= :thumbnail_image
 
@@ -29,8 +29,11 @@ module DragonflyLibvips
           case process
             when :shrink
               thumbnail_options.except!(:height, :size)
-              thumbnail_options[:xshrink] = dimensions.x_scale
-              thumbnail_options[:yshrink] = dimensions.y_scale
+              # thumbnail_options[:xshrink] = dimensions.x_scale
+              # thumbnail_options[:yshrink] = dimensions.y_scale
+              Rails.logger.debug(". . . . #{__FILE__}/#{__method__}/#{__LINE__}")
+              Rails.logger.ap thumbnail_options
+              Rails.logger.ap dimensions
               img.shrink(dimensions.x_scale, dimensions.y_scale, **thumbnail_options)
             when :crop
               thumbnail_options.except!(:height, :size)
@@ -48,11 +51,11 @@ module DragonflyLibvips
       options[:height] = options.fetch('height', dimensions.height.ceil)  if dimensions.height
 
       if jpeg
-        if Vips.at_least_libvips?(8, 8)
-          options[:no_rotate] = input_options.fetch('no_rotate', false)
-        else
-          options[:auto_rotate] = input_options.fetch('autorotate', true)
-        end
+        # if Vips.at_least_libvips?(8, 8)
+        #   options[:no_rotate] = input_options.fetch('no_rotate', false)
+        # else
+        #   options[:auto_rotate] = input_options.fetch('autorotate', true)
+        # end
       end
       options[:import_profile] = CMYK_PROFILE_PATH if cmyk
       options[:size] ||= dimensions.resize
