@@ -1,28 +1,17 @@
 require 'vips'
+require 'dragonfly_libvips/processors'
 
 module DragonflyLibvips
   module Processors
     class ExtractArea
-      def call(content, x, y, width, height, options = {})
-        raise UnsupportedFormat unless content.ext
-        raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext.downcase)
+      include DragonflyLibvips::Processors
 
-        options = DragonflyLibvips.stringify_keys(options)
-        format = options.fetch('format', content.ext)
-
-        input_options = options.fetch('input_options', {})
-
-        # input_options['access'] ||= 'sequential'
-        if content.mime_type == 'image/jpeg'
-          input_options['autorotate'] = true unless input_options.has_key?('autorotate')
+      def call(content, *args, **options)
+        wrap_process(content, *args, **options) do |img |
+          x, y, width, height = args
+          img = img.extract_area(x, y, width, height)
         end
 
-        output_options = options.fetch('output_options', {})
-        if FORMATS_WITHOUT_PROFILE_SUPPORT.include?(format)
-          output_options.delete('profile')
-        else
-          output_options['profile'] ||= input_options.fetch('profile', EPROFILE_PATH)
-        end
         output_options.delete('Q') unless format.to_s =~ /jpg|jpeg/i
         output_options['format'] ||= format.to_s if format.to_s =~ /gif|bmp/i
 

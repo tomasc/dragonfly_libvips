@@ -33,7 +33,7 @@ describe DragonflyLibvips::Processors::Encode do
   def output_format_short(format)
     case format
     when 'tiff' then 'tif'
-    when 'jpeg' then 'jpg'
+    # when 'jpeg' then 'jpg'
     else format
     end
   end

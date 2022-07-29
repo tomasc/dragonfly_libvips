@@ -1,21 +1,25 @@
 require 'dragonfly_libvips/dimensions'
+require 'dragonfly_libvips/geometry'
+require 'dragonfly_libvips/processors'
 require 'vips'
+require "active_support/core_ext/hash/except"
 
 module DragonflyLibvips
   module Processors
     class Thumb
-      OPERATORS = '><'.freeze
-      RESIZE_GEOMETRY = /\A\d*x\d*[#{OPERATORS}]?\z/ # e.g. '300x200>'
+      include DragonflyLibvips::Processors
       DPI = 300
+      CROP_KEYS = [:x, :y]
+      SHRINK_KEYS = [:x_scale, :y_scale]
 
       def call(content, geometry, options = {})
-        raise UnsupportedFormat unless content.ext
-        raise UnsupportedFormat unless SUPPORTED_FORMATS.include?(content.ext.downcase)
 
-        options = DragonflyLibvips.stringify_keys(options)
+        wrap_process(content, **options) do |img, **input_options|
 
-        filename = content.path
-        format = options.fetch('format', content.ext).to_s
+          dimensions = Dimensions.call(orig_w: img.width, orig_h: img.height, **Geometry.call(geometry))
+          # process = :shrink unless (dimensions.to_h.keys & SHRINK_KEYS).empty?
+          process = :crop unless (dimensions.to_h.keys & CROP_KEYS).empty?
+          process = process ||= :thumbnail_image
 
         input_options = options.fetch('input_options', {})
         input_options['access'] = input_options.fetch('access', 'sequential')
@@ -72,12 +76,23 @@ module DragonflyLibvips
         )
         content.ext = format
       end
+    end
 
-      def update_url(url_attributes, _, options = {})
-        options = options.each_with_object({}) { |(k, v), memo| memo[k.to_s] = v } # stringify keys
-        return unless format = options.fetch('format', nil)
-        url_attributes.ext = format
+    def set_thumbnail_options(input_options, dimensions, jpeg: false, cmyk: false)
+      options = input_options.fetch('thumbnail_options', {})
+      options[:height] = options.fetch('height', dimensions.height.ceil)  if dimensions.height
+
+      if jpeg
+        # if Vips.at_least_libvips?(8, 8)
+        #   options[:no_rotate] = input_options.fetch('no_rotate', false)
+        # else
+        #   options[:auto_rotate] = input_options.fetch('autorotate', true)
+        # end
       end
+      options[:import_profile] = CMYK_PROFILE_PATH if cmyk
+      options[:size] ||= dimensions.resize
+      options
     end
   end
 end
+
