@@ -16,10 +16,9 @@ describe DragonflyLibvips::Processors::Encode do
 
       DragonflyLibvips::SUPPORTED_OUTPUT_FORMATS.each do |output_format|
         it("#{format} to #{output_format}") do
-          result = content.encode(output_format)
-          _(result.mime_type).must_equal Rack::Mime.mime_type(".#{output_format}")
-          _(result.size).must_be :>, 0
-          _(result.tempfile.path).must_match(/\.#{output_format_short(output_format)}\z/)
+          _(content.encode(output_format).mime_type).must_equal Rack::Mime.mime_type(".#{output_format}")
+          _(content.encode(output_format).size).must_be :>, 0
+          _(content.encode(output_format).tempfile.path).must_match /\.#{output_format_short(output_format)}\z/
         end
       end
     end

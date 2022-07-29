@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require 'dragonfly'
 require 'dragonfly_libvips/dimensions'
 require 'dragonfly_libvips/geometry'
@@ -38,7 +37,7 @@ module DragonflyLibvips
     vips
   ]
 
-  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[avif bmp dz gif hdr heic heif jpc jpt jp2 j2c j2k webp ]
+  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[]
 
   # ImageMagick geometry strings. These from Dragonfly::ImageMagick, via RefineryCMS
 

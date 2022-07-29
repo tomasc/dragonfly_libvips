@@ -9,13 +9,13 @@ module DragonflyLibvips
     describe 'analysers' do
       it { _(content.width).must_equal 280 }
       it { _(content.height).must_equal 355 }
-      it { _(content.aspect_ratio).must_equal (280.0 / 355.0) }
+      it { _(content.aspect_ratio).must_equal(280.0 / 355.0) }
       it { _(content.xres).must_equal 72.0 }
       it { _(content.yres).must_equal 72.0 }
 
       it { _(content).must_be :portrait? }
       it { _(content.portrait).must_equal true } # for use with magic attributes
-      it { _(content).wont_be :landscape? }
+      it { content.wont_be :landscape? }
       it { _(content.landscape).must_equal false } # for use with magic attributes
 
       it { _(content.format).must_equal 'png' }

@@ -138,13 +138,13 @@ describe DragonflyLibvips::Processors::Thumb do
   describe 'pdf' do
     describe 'resize' do
       before { processor.call(pdf, '500x500', format: 'jpg') }
-      # it { _(pdf).must_have_width 386 }
+      it { _(pdf).must_have_width 386 }
       it { _(pdf).must_have_height 500 }
     end
 
     describe 'page param' do
       before { processor.call(pdf, '500x500', format: 'jpg', input_options: { page: 0 }) }
-      # it { _(pdf).must_have_width 386 }
+      it { _(pdf).must_have_width 386 }
       it { _(pdf).must_have_height 500 }
     end
   end
@@ -166,7 +166,7 @@ describe DragonflyLibvips::Processors::Thumb do
       before { processor.call(anim_gif, '200x') }
       it {
         skip 'waiting for full support'
-        _(gif).must_have_width 200
+        gif.must_have_width 200
       }
     end
   end
@@ -187,8 +187,7 @@ describe DragonflyLibvips::Processors::Thumb do
 
     describe 'when ext passed in' do
       before { processor.update_url(url_attributes, '2x2', format: 'png') }
-
-it { _(url_attributes.ext).must_equal 'png' }
+      it { _(url_attributes.ext).must_equal 'png' }
     end
 
     describe 'when ext not passed in' do
@@ -200,7 +199,6 @@ it { _(url_attributes.ext).must_equal 'png' }
   describe 'tempfile has extension' do
     let(:format) { 'jpg' }
     before { processor.call(image, '100x', format: 'jpg') }
-
-    it { _(image.tempfile.path).must_match /\.#{format}\z/ }
+    it { _(image.tempfile.path).must_match(/\.jpg\z/) }
   end
 end
