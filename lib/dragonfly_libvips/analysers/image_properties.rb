@@ -14,7 +14,7 @@ module DragonflyLibvips
         input_options['autorotate'] = true if content.mime_type == 'image/jpeg'
         input_options['dpi'] = DPI if content.mime_type == 'application/pdf'
 
-        img = ::Vips::Image.new_from_file(content.path, DragonflyLibvips.symbolize_keys(input_options))
+        img = ::Vips::Image.new_from_file(content.path, **DragonflyLibvips.symbolize_keys(input_options))
 
         width = img.width
         height = img.height
