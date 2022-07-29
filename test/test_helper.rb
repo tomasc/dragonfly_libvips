@@ -1,5 +1,7 @@
+$VERBOSE = nil
+# added to suppress warnings about method definitions
+#
 require 'bundler/setup'
-
 require 'minitest'
 require 'minitest/autorun'
 require 'minitest/reporters'
@@ -30,3 +32,4 @@ def test_libvips_app
     plugin :libvips
   end
 end
+
