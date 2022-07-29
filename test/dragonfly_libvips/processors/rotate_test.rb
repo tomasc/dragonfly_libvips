@@ -8,35 +8,35 @@ describe DragonflyLibvips::Processors::Rotate do
   describe 'rotate 90' do
     before { processor.call(content, 90) }
 
-    it { _(content).must_have_width 355 }
-    it { _(content).must_have_height 280 }
+    it { content.must_have_width 355 }
+    it { content.must_have_height 280 }
   end
 
   describe 'rotate 180' do
     before { processor.call(content, 180) }
 
-    it { _(content).must_have_width 280 }
-    it { _(content).must_have_height 355 }
+    it { content.must_have_width 280 }
+    it { content.must_have_height 355 }
   end
 
   describe 'rotate 270' do
     before { processor.call(content, 270) }
 
-    it { _(content).must_have_width 355 }
-    it { _(content).must_have_height 280 }
+    it { content.must_have_width 355 }
+    it { content.must_have_height 280 }
   end
 
   describe 'rotate with format' do
     before { processor.call(content, 90, format: 'jpg') }
 
-    it { _(content).must_have_width 355 }
-    it { _(content).must_have_height 280 }
-    it { _(content.ext).must_equal 'jpg' }
+    it { content.must_have_width 355 }
+    it { content.must_have_height 280 }
+    it { content.ext.must_equal 'jpg' }
   end
 
   describe 'tempfile has extension' do
     let(:format) { 'jpg' }
     before { processor.call(content, 90, format: format) }
-    it { _(content.tempfile.path).must_match /\.#{format}\z/ }
+    it { content.tempfile.path.must_match /\.#{format}\z/ }
   end
 end

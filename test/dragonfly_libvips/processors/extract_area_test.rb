@@ -13,21 +13,21 @@ describe DragonflyLibvips::Processors::ExtractArea do
   describe 'keep format' do
     before { processor.call(content, x, y, width, height) }
 
-    it { _(content).must_have_width width }
-    it { _(content).must_have_height height }
+    it { content.must_have_width width }
+    it { content.must_have_height height }
   end
 
   describe 'convert to format' do
     before { processor.call(content, x, y, width, height, format: 'jpg') }
 
-    it { _(content).must_have_width width }
-    it { _(content).must_have_height height }
-    it { _(content.ext).must_equal 'jpg' }
+    it { content.must_have_width width }
+    it { content.must_have_height height }
+    it { content.ext.must_equal 'jpg' }
   end
 
   describe 'tempfile has extension' do
     let(:format) { 'jpg' }
     before { processor.call(content, x, y, width, height, format: format) }
-    it { _(content.tempfile.path).must_match /\.#{format}\z/ }
+    it { content.tempfile.path.must_match /\.#{format}\z/ }
   end
 end

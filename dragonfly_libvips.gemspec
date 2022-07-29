@@ -18,18 +18,14 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'dragonfly', '~> 1.4'
+  spec.add_dependency 'dragonfly', '~> 1.0'
   spec.add_dependency 'ruby-vips', '~> 2.0', '>= 2.0.16'
 
-  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'bundler'#, '~> 2.0'
   spec.add_development_dependency 'rb-readline'
   spec.add_development_dependency 'guard'
   spec.add_development_dependency 'guard-minitest'
   spec.add_development_dependency 'minitest', '~> 5.0'
   spec.add_development_dependency 'minitest-reporters'
-  spec.add_development_dependency 'rubocop-minitest'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'railties'
-  spec.add_development_dependency 'activemodel'
-
+  spec.add_development_dependency 'rake', '~> 10.0'
 end

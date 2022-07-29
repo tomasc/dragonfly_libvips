@@ -73,11 +73,6 @@ Below are some examples of geometry strings for `thumb`:
 'x300' # resize height, maintain aspect ratio
 '400x300<' # resize only if the image is smaller than this
 '400x300>' # resize only if the image is larger than this
-'400x300!' # crop to these dimensions ignoring aspect ratio
-'400x300#ne' # crop using gravity 'ne' 
-# the crop will come from the north-east corner of the image.
-#other gravity options are  n, s, e, w, nw, sw, se, and c (centre)
-'400x300^' # fill the area specified. Use these as minimum dimensions
 ```
 
 ### Encode

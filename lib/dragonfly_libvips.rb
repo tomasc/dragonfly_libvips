@@ -1,9 +1,6 @@
-# frozen_string_literal: true
 require 'dragonfly'
 require 'dragonfly_libvips/dimensions'
-require 'dragonfly_libvips/geometry'
 require 'dragonfly_libvips/plugin'
-require 'dragonfly_libvips/processors'
 require 'dragonfly_libvips/version'
 require 'vips'
 
@@ -32,30 +29,19 @@ module DragonflyLibvips
     pfm
     pgm
     ppm
-    raw
     v
     vips
   ]
 
-  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[]
+  FORMATS_WITHOUT_PROFILE_SUPPORT = %w[avif bmp dz gif hdr webp heic heif]
 
-  # ImageMagick geometry strings. These from Dragonfly::ImageMagick, via RefineryCMS
+  private
 
-  area         = /(?<area>\d+@)/
-  gravity      = /#(?<gravity>\w{1,2})/
-  modifiers    = /(?<modifiers>[><%^!])/
-  offset       = /(?<x_offset>[+-]\d+)?(?<y_offset>[+-]\d+)/
-  width_height = /(?<geom_w>\d+)?x?(?<geom_h>\d+)?/
-
-  RESIZE_GEOMETRY = /\A#{width_height}#{modifiers}?\z|\A#{area}\z/ # e.g. '300x200!' or '900@'
-  CROPPED_RESIZE_GEOMETRY = /\A#{width_height}#{gravity}?\z/ # e.g. '20x50#ne'
-  CROP_GEOMETRY = /\A#{width_height}(#{offset})?#{gravity}?\z/ # e.g. '30x30+10+10
-
-  def self.stringify_keys(**hash )
-    hash.transform_keys { |k| k.to_s }
+  def self.stringify_keys(hash = {})
+    hash.each_with_object({}) { |(k, v), memo| memo[k.to_s] = v }
   end
 
-  def self.symbolize_keys(**hash)
-    hash.transform_keys { |k| k.to_sym } if hash
+  def self.symbolize_keys(hash = {})
+    hash.each_with_object({}) { |(k, v), memo| memo[k.to_sym] = v }
   end
 end
