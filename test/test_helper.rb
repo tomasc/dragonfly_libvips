@@ -1,14 +1,16 @@
-require 'bundler/setup'
+# frozen_string_literal: true
 
-require 'minitest'
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/spec'
+require "bundler/setup"
 
-require 'dragonfly'
-require 'dragonfly_libvips'
+require "minitest"
+require "minitest/autorun"
+require "minitest/reporters"
+require "minitest/spec"
 
-SAMPLES_DIR = Pathname.new(File.expand_path('../../samples', __FILE__))
+require "dragonfly"
+require "dragonfly_libvips"
+
+SAMPLES_DIR = Pathname.new(File.expand_path("../../samples", __FILE__))
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
@@ -17,7 +19,7 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 def test_app(name = nil)
   Dragonfly::App.instance(name).tap do |app|
     app.datastore = Dragonfly::MemoryDataStore.new
-    app.secret = 'test secret'
+    app.secret = "test secret"
   end
 end
 

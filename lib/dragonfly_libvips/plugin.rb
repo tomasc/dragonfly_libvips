@@ -1,8 +1,10 @@
-require 'dragonfly_libvips/analysers/image_properties'
-require 'dragonfly_libvips/processors/encode'
-require 'dragonfly_libvips/processors/extract_area'
-require 'dragonfly_libvips/processors/rotate'
-require 'dragonfly_libvips/processors/thumb'
+# frozen_string_literal: true
+
+require "dragonfly_libvips/analysers/image_properties"
+require "dragonfly_libvips/processors/encode"
+require "dragonfly_libvips/processors/extract_area"
+require "dragonfly_libvips/processors/rotate"
+require "dragonfly_libvips/processors/thumb"
 
 module DragonflyLibvips
   class Plugin
@@ -24,11 +26,9 @@ module DragonflyLibvips
       app.add_analyser(:landscape) { |c| !c.analyse(:portrait) }
 
       app.add_analyser(:image) do |c|
-        begin
-          c.analyse(:image_properties).key?('format')
-        rescue ::Vips::Error
-          false
-        end
+        c.analyse(:image_properties).key?("format")
+      rescue ::Vips::Error
+        false
       end
 
       # Aliases

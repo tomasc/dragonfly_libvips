@@ -1,4 +1,6 @@
-require 'vips'
+# frozen_string_literal: true
+
+require "vips"
 
 module DragonflyLibvips
   module Analysers
@@ -10,9 +12,9 @@ module DragonflyLibvips
         return {} unless SUPPORTED_FORMATS.include?(content.ext.downcase)
 
         input_options = {}
-        input_options['access'] = 'sequential'
-        input_options['autorotate'] = true if content.mime_type == 'image/jpeg'
-        input_options['dpi'] = DPI if content.mime_type == 'application/pdf'
+        input_options["access"] = "sequential"
+        input_options["autorotate"] = true if content.mime_type == "image/jpeg"
+        input_options["dpi"] = DPI if content.mime_type == "application/pdf"
 
         img = ::Vips::Image.new_from_file(content.path, **DragonflyLibvips.symbolize_keys(input_options))
 
@@ -22,12 +24,12 @@ module DragonflyLibvips
         yres = img.yres
 
         {
-          'format' => content.ext.to_s,
-          'width' => width,
-          'height' => height,
-          'xres' => xres,
-          'yres' => yres,
-          'progressive' => (content.mime_type == 'image/jpeg' && img.get('jpeg-multiscan') != 0)
+          "format" => content.ext.to_s,
+          "width" => width,
+          "height" => height,
+          "xres" => xres,
+          "yres" => yres,
+          "progressive" => (content.mime_type == "image/jpeg" && img.get("jpeg-multiscan") != 0)
         }
       end
     end

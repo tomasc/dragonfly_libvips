@@ -1,7 +1,8 @@
-require 'vips'
+# frozen_string_literal: true
+
+require "vips"
 
 def image_properties(content)
-
   img = Vips::Image.new_from_file(content.path, access: :sequential)
 
   {

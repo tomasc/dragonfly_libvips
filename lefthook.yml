@@ -1,0 +1,5 @@
+pre-commit:
+  parallel: true
+  commands:
+    rubocop:
+      run: bundle exec rubocop {staged_files} -A --display-cop-names --extra-details --force-exclusion

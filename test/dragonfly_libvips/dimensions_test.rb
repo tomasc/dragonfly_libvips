@@ -1,15 +1,17 @@
-require 'test_helper'
+# frozen_string_literal: true
+
+require "test_helper"
 
 describe DragonflyLibvips::Dimensions do
-  let(:geometry) { '' }
+  let(:geometry) { "" }
   let(:orig_w) { nil }
   let(:orig_h) { nil }
   let(:result) { DragonflyLibvips::Dimensions.call(geometry, orig_w, orig_h) }
 
-  describe 'NNxNN' do
-    let(:geometry) { '250x250' }
+  describe "NNxNN" do
+    let(:geometry) { "250x250" }
 
-    describe 'when square' do
+    describe "when square" do
       let(:orig_w) { 1000 }
       let(:orig_h) { 1000 }
 
@@ -17,21 +19,21 @@ describe DragonflyLibvips::Dimensions do
       it { result.height.must_equal 250 }
       it { result.scale.must_equal 250.0 / orig_w }
 
-      describe '250x250>' do
-        let(:geometry) { '250x250>' }
+      describe "250x250>" do
+        let(:geometry) { "250x250>" }
 
-        describe 'when image larger than specified' do
-          it 'resize' do
+        describe "when image larger than specified" do
+          it "resize" do
             result.width.must_equal 250
             result.height.must_equal 250
             result.scale.must_equal 250.0 / orig_w
           end
         end
 
-        describe 'when image smaller than specified' do
+        describe "when image smaller than specified" do
           let(:orig_w) { 100 }
           let(:orig_h) { 100 }
-          it 'do not resize' do
+          it "do not resize" do
             result.width.must_equal 100
             result.height.must_equal 100
             result.scale.must_equal 100.0 / orig_w
@@ -39,22 +41,22 @@ describe DragonflyLibvips::Dimensions do
         end
       end
 
-      describe '250x50<' do
-        let(:geometry) { '250x250<' }
+      describe "250x50<" do
+        let(:geometry) { "250x250<" }
 
-        describe 'when image larger than specified' do
-          it 'do not resize' do
+        describe "when image larger than specified" do
+          it "do not resize" do
             result.width.must_equal 1000
             result.height.must_equal 1000
             result.scale.must_equal 1000.0 / orig_w
           end
         end
 
-        describe 'when image smaller than specified' do
+        describe "when image smaller than specified" do
           let(:orig_w) { 100 }
           let(:orig_h) { 100 }
 
-          it 'do resize' do
+          it "do resize" do
             result.width.must_equal 250
             result.height.must_equal 250
             result.scale.must_equal 250.0 / orig_w
@@ -63,7 +65,7 @@ describe DragonflyLibvips::Dimensions do
       end
     end
 
-    describe 'when landscape' do
+    describe "when landscape" do
       let(:orig_w) { 1000 }
       let(:orig_h) { 500 }
 
@@ -72,7 +74,7 @@ describe DragonflyLibvips::Dimensions do
       it { result.scale.must_equal 250.0 / orig_w }
     end
 
-    describe 'when portrait' do
+    describe "when portrait" do
       let(:orig_w) { 500 }
       let(:orig_h) { 1000 }
 
@@ -82,10 +84,10 @@ describe DragonflyLibvips::Dimensions do
     end
   end
 
-  describe 'NNx' do
-    let(:geometry) { '250x' }
+  describe "NNx" do
+    let(:geometry) { "250x" }
 
-    describe 'when square' do
+    describe "when square" do
       let(:orig_w) { 1000 }
       let(:orig_h) { 1000 }
 
@@ -94,7 +96,7 @@ describe DragonflyLibvips::Dimensions do
       it { result.scale.must_equal 250.0 / orig_w }
     end
 
-    describe 'when landscape' do
+    describe "when landscape" do
       let(:orig_w) { 1000 }
       let(:orig_h) { 500 }
 
@@ -103,7 +105,7 @@ describe DragonflyLibvips::Dimensions do
       it { result.scale.must_equal 250.0 / orig_w }
     end
 
-    describe 'when portrait' do
+    describe "when portrait" do
       let(:orig_w) { 500 }
       let(:orig_h) { 1000 }
 
@@ -113,10 +115,10 @@ describe DragonflyLibvips::Dimensions do
     end
   end
 
-  describe 'xNN' do
-    let(:geometry) { 'x250' }
+  describe "xNN" do
+    let(:geometry) { "x250" }
 
-    describe 'when square' do
+    describe "when square" do
       let(:orig_w) { 1000 }
       let(:orig_h) { 1000 }
 
@@ -125,7 +127,7 @@ describe DragonflyLibvips::Dimensions do
       it { result.scale.must_equal 250.0 / orig_w }
     end
 
-    describe 'when landscape' do
+    describe "when landscape" do
       let(:orig_w) { 1000 }
       let(:orig_h) { 500 }
 
@@ -134,7 +136,7 @@ describe DragonflyLibvips::Dimensions do
       it { result.scale.must_equal 500.0 / orig_w }
     end
 
-    describe 'when portrait' do
+    describe "when portrait" do
       let(:orig_w) { 500 }
       let(:orig_h) { 1000 }
 
