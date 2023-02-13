@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 2.5.1
+
+* Update all DragonflyLibvips.symbolize_keys to new syntax by @Bartuz
+* Remove `raw` from supported output formats by @asgerb
+* Add `j2c`, `j2k`, `jp2`, `jpc`, `jpt`, `jxl`, and `szi` to formats without profile support by @asgerb
+* Don't pass `format` output option to `gif` by @asgerb
+* Fix missing parameters in `Dimensions` by @asgerb
+
 ## 2.5.0
 
 * Fix ruby 3.0+ compatibility by @Bartuz
