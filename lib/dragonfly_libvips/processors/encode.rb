@@ -38,10 +38,10 @@ module DragonflyLibvips
         output_options.delete("Q") unless /jpg|jpeg/i.match?(format.to_s)
         output_options["format"] ||= format.to_s if /gif|bmp/i.match?(format.to_s)
 
-        img = ::Vips::Image.new_from_file(content.path, DragonflyLibvips.symbolize_keys(input_options))
+        img = ::Vips::Image.new_from_file(content.path, **DragonflyLibvips.symbolize_keys(input_options))
 
         content.update(
-          img.write_to_buffer(".#{format}", DragonflyLibvips.symbolize_keys(output_options)),
+          img.write_to_buffer(".#{format}", **DragonflyLibvips.symbolize_keys(output_options)),
           "name" => "temp.#{format}",
           "format" => format
         )
