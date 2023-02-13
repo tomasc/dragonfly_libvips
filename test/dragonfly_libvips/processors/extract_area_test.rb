@@ -28,8 +28,7 @@ describe DragonflyLibvips::Processors::ExtractArea do
   end
 
   describe "tempfile has extension" do
-    let(:format) { "jpg" }
-    before { processor.call(content, x, y, width, height, format: format) }
-    it { _(content.tempfile.path).must_match(/\.#{format}\z/) }
+    before { processor.call(content, x, y, width, height, format: "jpg") }
+    it { _(content.tempfile.path).must_match(/\.jpg\z/) }
   end
 end
