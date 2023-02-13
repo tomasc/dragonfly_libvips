@@ -1,17 +1,5 @@
 name: Test
-
-on:
-  pull_request:
-    branches:
-      - master
-  push:
-    branches:
-      - master
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
+on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
