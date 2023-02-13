@@ -38,7 +38,7 @@ describe DragonflyLibvips::Processors::Rotate do
 
   describe "tempfile has extension" do
     let(:format) { "jpg" }
-    before { processor.call(content, 90, format:) }
+    before { processor.call(content, 90, format: format) }
     it { _(content.tempfile.path).must_match(/\.#{format}\z/) }
   end
 end

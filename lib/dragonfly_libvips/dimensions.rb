@@ -8,7 +8,7 @@ module DragonflyLibvips
 
     def call
       return OpenStruct.new(width: orig_w, height: orig_h, scale: 1) if do_not_resize_if_image_smaller_than_requested? || do_not_resize_if_image_larger_than_requested?
-      OpenStruct.new(width:, height:, scale:)
+      OpenStruct.new(width: width, height: height, scale: scale)
     end
 
     private
