@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: [2.7.x, 3.2.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get clean
+          sudo apt-get update
+          sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev libgif-dev
+          curl -OL https://github.com/libvips/libvips/releases/download/v8.13.3/vips-8.13.3.tar.gz
+          tar zxvf vips-8.13.3.tar.gz && cd vips-8.13.3 && ./configure $1 && sudo make && sudo make install
+          export GI_TYPELIB_PATH=/usr/local/lib/girepository-1.0/
+          sudo ldconfig
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Run tests
+        run: bundle exec rake
