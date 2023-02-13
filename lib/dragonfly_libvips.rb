@@ -31,6 +31,7 @@ module DragonflyLibvips
     pfm
     pgm
     ppm
+    raw
     v
     vips
   ]
