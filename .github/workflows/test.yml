@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: [2.7.x, 3.2.x]
+        ruby: ['2.7', '3.2']
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
