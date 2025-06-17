@@ -29,6 +29,7 @@ module DragonflyLibvips
           "height" => height,
           "xres" => xres,
           "yres" => yres,
+          "has_alpha" => img.has_alpha?,
           "progressive" => (content.mime_type == "image/jpeg" && img.get("jpeg-multiscan") != 0)
         }
       end
