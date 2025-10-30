@@ -54,6 +54,13 @@ module DragonflyLibvips
     webp
   ]
 
+  class << self
+    # Controls whether output images automatically get an ICC profile attached
+    attr_accessor :auto_profile
+  end
+
+  self.auto_profile ||= true
+
   private
     def self.stringify_keys(hash = {})
       hash.transform_keys { |k| k.to_s }

@@ -26,7 +26,7 @@ module DragonflyLibvips
         if content.mime_type == "application/pdf"
           input_options["dpi"] = input_options.fetch("dpi", DPI)
           input_options["page"] = input_options.fetch("page", 0)
-        else
+        elsif DragonflyLibvips.auto_profile
           input_options.delete("page")
           input_options.delete("dpi")
         end

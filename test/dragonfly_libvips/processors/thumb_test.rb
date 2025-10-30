@@ -142,11 +142,22 @@ describe DragonflyLibvips::Processors::Thumb do
 
   describe "icc profile embedding" do
     before { processor.call(image, "100x", format: "jpg") }
+    after { DragonflyLibvips.auto_profile = true }
 
     it "embeds an ICC profile by default" do
       processor.call(image, "100x", format: "jpg")
       output = `vipsheader -a #{image.file.path} | grep -i icc`
       _(output).wont_be_empty
+    end
+
+    it "does not embed an ICC profile when disabled" do
+      original_header = `vipsheader -a #{image.file.path} | grep -i icc`.strip
+
+      DragonflyLibvips.auto_profile = false
+      processor.call(image, "100x", format: "jpg")
+      output_header = `vipsheader -a #{image.file.path} | grep -i icc`.strip
+
+      _(output_header).must_equal original_header
     end
   end
 end
