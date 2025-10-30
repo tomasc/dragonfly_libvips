@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.6.0
+
+* Add auto_profile configuration option by @asgerb
+* Fix output not having the ICC profile embedded by @asgerb
+
 ## 2.5.1
 
 * Update all DragonflyLibvips.symbolize_keys to new syntax by @Bartuz
