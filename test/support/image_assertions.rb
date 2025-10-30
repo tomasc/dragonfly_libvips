@@ -14,7 +14,7 @@ def image_properties(content)
   }
 end
 
-module MiniTest::Assertions
+module Minitest::Assertions
   [:width, :height, :format].each do |property|
     define_method "assert_#{property}" do |obj, value|
       assert_equal value, image_properties(obj)[property]
