@@ -11,7 +11,7 @@ jobs:
       matrix:
         ruby: ['3.2', '3.3', '3.4']
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
       - name: Install dependencies
         run: |
           sudo apt-get clean
