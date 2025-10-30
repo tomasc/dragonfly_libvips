@@ -67,6 +67,15 @@ module DragonflyLibvips
         thumbnail_options = thumbnail_options.transform_keys { |k| k.to_sym } # symbolize
         thumb = ::Vips::Image.thumbnail(filename, dimensions.width.ceil, **DragonflyLibvips.symbolize_keys(thumbnail_options))
 
+        if output_options.include?("profile")
+          thumb = thumb.icc_transform(
+            output_options["profile"],
+            embedded: true,
+            intent: :relative,
+            black_point_compensation: true
+          )
+        end
+
         content.update(
           thumb.write_to_buffer(".#{format}", **DragonflyLibvips.symbolize_keys(output_options)),
           "name" => "temp.#{format}",

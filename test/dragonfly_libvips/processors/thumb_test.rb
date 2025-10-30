@@ -139,4 +139,16 @@ describe DragonflyLibvips::Processors::Thumb do
     before { processor.call(image, "100x", format: "jpg") }
     it { _(image.tempfile.path).must_match(/\.#{format}\z/) }
   end
+
+  describe "icc profile embedding" do
+    let(:jpg) { Dragonfly::Content.new(app, SAMPLES_DIR.join("sample.jpg")) }
+
+    it "embeds an ICC profile" do
+      processor.call(jpg, "50x50", format: "jpg")
+
+      # Verify ICC profile exists using vipsheader
+      output = `vipsheader -a #{jpg.file.path} | grep -i icc`
+      _(output).wont_be_empty
+    end
+  end
 end

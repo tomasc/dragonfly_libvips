@@ -31,6 +31,15 @@ module DragonflyLibvips
         img = ::Vips::Image.new_from_file(content.path, **DragonflyLibvips.symbolize_keys(input_options))
         img = img.rot("d#{rotate}")
 
+        if output_options.include?("profile")
+          img = img.icc_transform(
+            output_options["profile"],
+            embedded: true,
+            intent: :relative,
+            black_point_compensation: true
+          )
+        end
+
         content.update(
           img.write_to_buffer(".#{format}", **DragonflyLibvips.symbolize_keys(output_options)),
           "name" => "temp.#{format}",
