@@ -31,4 +31,13 @@ describe DragonflyLibvips::Processors::ExtractArea do
     before { processor.call(content, x, y, width, height, format: "jpg") }
     it { _(content.tempfile.path).must_match(/\.jpg\z/) }
   end
+
+  describe "icc profile embedding" do
+    before { processor.call(content, x, y, width, height, format: "jpg") }
+
+    it "embeds an ICC profile" do
+      output = `vipsheader -a #{content.file.path} | grep -i icc`
+      _(output).wont_be_empty
+    end
+  end
 end

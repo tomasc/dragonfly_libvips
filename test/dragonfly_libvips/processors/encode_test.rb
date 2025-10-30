@@ -31,6 +31,15 @@ describe DragonflyLibvips::Processors::Encode do
     it { _(content_image.ext).must_equal "jpg" }
   end
 
+  describe "icc profile embedding" do
+    before { processor.call(content_image, "jpg", output_options: { Q: 50 }) }
+
+    it "embeds an ICC profile" do
+      output = `vipsheader -a #{content_image.file.path} | grep -i icc`
+      _(output).wont_be_empty
+    end
+  end
+
   def output_format_short(format)
     case format
     when "tiff" then "tif"

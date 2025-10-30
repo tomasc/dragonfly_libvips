@@ -40,4 +40,13 @@ describe DragonflyLibvips::Processors::Rotate do
     before { processor.call(content, 90, format: "jpg") }
     it { _(content.tempfile.path).must_match(/\.jpg\z/) }
   end
+
+  describe "icc profile embedding" do
+    before { processor.call(content, 90, format: "jpg") }
+
+    it "embeds an ICC profile" do
+      output = `vipsheader -a #{content.file.path} | grep -i icc`
+      _(output).wont_be_empty
+    end
+  end
 end
