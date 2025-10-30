@@ -26,7 +26,7 @@ module DragonflyLibvips
         if content.mime_type == "application/pdf"
           input_options["dpi"] = input_options.fetch("dpi", DPI)
           input_options["page"] = input_options.fetch("page", 0)
-        elsif DragonflyLibvips.auto_profile
+        else
           input_options.delete("page")
           input_options.delete("dpi")
         end
@@ -34,7 +34,7 @@ module DragonflyLibvips
         output_options = options.fetch("output_options", {})
         if FORMATS_WITHOUT_PROFILE_SUPPORT.include?(format)
           output_options.delete("profile")
-        else
+        elsif DragonflyLibvips.auto_profile
           output_options["profile"] ||= input_options.fetch("profile", EPROFILE_PATH)
         end
         output_options.delete("Q") unless /jpg|jpeg/i.match?(format.to_s)
