@@ -16,7 +16,7 @@ jobs:
         run: |
           sudo apt-get clean
           sudo apt-get update
-          sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev libgif-dev
+          sudo apt-get install -y gobject-introspection libgirepository1.0-dev libglib2.0-dev libpoppler-glib-dev libgif-dev liblcms2-devd
           curl -OL https://github.com/libvips/libvips/releases/download/v8.13.3/vips-8.13.3.tar.gz
           tar zxvf vips-8.13.3.tar.gz && cd vips-8.13.3 && ./configure $1 && sudo make && sudo make install
           export GI_TYPELIB_PATH=/usr/local/lib/girepository-1.0/
