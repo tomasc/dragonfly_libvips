@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.6.1
+
+* Fix auto_profile implementation in thumb processor by @asgerb
+
 ## 2.6.0
 
 * Add auto_profile configuration option by @asgerb
